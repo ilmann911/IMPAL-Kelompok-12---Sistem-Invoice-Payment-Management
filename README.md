@@ -5,7 +5,7 @@
 ### DFD Level 0
 ![DFD Level 0](gambar/DFDlevel0.jpg)
 
-*Diagram Konteks yang menunjukkan aliran data global.*
+**Diagram Konteks yang menunjukkan aliran data global.**
 ### DFD Level 1
 ![DFD Level 1](path/ke/gambar/dfd1.png)
 *Detail proses bisnis dan integrasi database.*
