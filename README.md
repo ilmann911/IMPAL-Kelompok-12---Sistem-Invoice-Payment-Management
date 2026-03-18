@@ -7,7 +7,7 @@
 
 **Diagram Konteks yang menunjukkan aliran data global.**
 ### DFD Level 1
-![DFD Level 1](path/ke/gambar/dfd1.png)
+![DFD Level 1](gambar/DFDlevel1.png)
 *Detail proses bisnis dan integrasi database.*
 ---
 ## 🎨 Mockup Antarmuka
