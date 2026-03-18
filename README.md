@@ -25,12 +25,12 @@ Data Store (D1. Invoice & Payments): Berfungsi sebagai pusat basis data (databas
 Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 | Login Page | Dashboard | Core Feature |
 | :---: | :---: | :---: |
-| ![Login](assets/login.png) | ![Dash](assets/dash.png) | ![Feature](assets/feature.png) |
+| ![Login](assets/login.png) | ![Dash](gambar/Dashboard) | ![Feature](assets/feature.png) |
 ---
 ## 🛠️ Stack Teknologi
-- **Frontend:** Next.js / Java Swing
-- **Backend:** Node.js / Java
-- **Database:** PostgreSQL / MySQL
+- **Frontend:** Next.js
+- **Backend:** Node.js
+- **Database:** MySQL
 ---
 ## 📂 Cara Instalasi
 1. `git clone [url-repo]`
