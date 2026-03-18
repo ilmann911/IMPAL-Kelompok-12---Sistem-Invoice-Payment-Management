@@ -19,6 +19,7 @@ Admin: Pengelola sistem yang memiliki hak akses penuh terhadap pembuatan invoice
 Pelanggan: Penerima layanan yang melakukan transaksi dan pembayaran.
 
 Data Store (D1. Invoice & Payments): Berfungsi sebagai pusat basis data (database) yang menyimpan seluruh riwayat transaksi, detail item, dan status pembayaran agar data tetap konsisten dan aman.
+
 ---
 ## 🎨 Mockup Antarmuka
 Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
