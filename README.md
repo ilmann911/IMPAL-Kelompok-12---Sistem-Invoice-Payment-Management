@@ -3,7 +3,7 @@
 ---
 ## 📊 Perancangan Sistem (DFD)
 ### DFD Level 0
-![DFD Level 0](path/ke/gambar/dfd0.png https://github.com/ilmann911/IMPAL-Kelompok-12---Sistem-Invoice-Payment-Management/blob/main/DFD%20level%200%20-%20Final.jpg)
+![DFD Level 0](path/ke/gambar/dfd0.png)
 *Diagram Konteks yang menunjukkan aliran data global.*
 ### DFD Level 1
 ![DFD Level 1](path/ke/gambar/dfd1.png)
