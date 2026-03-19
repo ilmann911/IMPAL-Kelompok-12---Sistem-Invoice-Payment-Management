@@ -5,7 +5,8 @@
 ### DFD Level 0
 ![DFD Level 0](gambar/DFDlevel0.jpg)
 
-**Diagram Konteks yang menunjukkan aliran data global.**
+Diagram Konteks tersebut menggambarkan interaksi antara dua entitas (admin & pelanggan) dengan Sistem Invoice & Payment Management secara garis besar. Entitas Admin berinteraksi dengan sistem melalui dua aliran data masuk; data customer dan data item invoice sebagai konfirmasi manual atas pembayaran yang dilakukan pelanggan, serta menerima laporan dan rekap sebagai output dari sistem. Entitas Pelanggan menerima invoice pdf dan reminder jatuh tempo dari sistem, serta mengirimkan data konfirmasi pembayaran kembali ke sistem.
+
 ### DFD Level 1
 ![DFD Level 1](gambar/DFDlevel1.png)
 
