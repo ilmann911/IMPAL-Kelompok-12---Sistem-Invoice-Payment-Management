@@ -29,8 +29,8 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 | ![Login](assets/login.png) | ![Dash](gambar/Dashboard.png) | ![Feature](assets/feature.png) |
 ---
 ## 🛠️ Stack Teknologi
-- **Frontend:** Next.js
-- **Backend:** Node.js
+- **Frontend:** HTML, CSS
+- **Backend:** Python
 - **Database:** MySQL
 ---
 ## 📂 Cara Instalasi
