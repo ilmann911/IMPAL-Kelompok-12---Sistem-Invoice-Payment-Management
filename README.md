@@ -26,7 +26,7 @@ Data Store (D1. Invoice & Payments): Berfungsi sebagai pusat basis data (databas
 Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 | Login Page | Dashboard | Core Feature |
 | :---: | :---: | :---: |
-| ![Login](assets/login.png) | ![Dash](gambar/Dashboard.png) | ![Feature](assets/feature.png) |
+| ![Login](gambar/LOGIN.png) | ![Dash](gambar/Dashboard.png) | ![Feature](gambar/KELOLA INVOICE.png) |
 ---
 ## 🛠️ Stack Teknologi
 - **Frontend:** Laravel, PHP
