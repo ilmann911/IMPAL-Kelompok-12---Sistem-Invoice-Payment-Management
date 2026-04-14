@@ -18,7 +18,6 @@ class DashboardController extends Controller
         return view('dashboard', compact('totalInvoice', 'paid', 'unpaid', 'overdue', 'invoices'));
     }
 
-    // TAMBAHKAN FUNGSI INI
     public function laporan()
     {
         $totalInvoice = Invoice::count();
