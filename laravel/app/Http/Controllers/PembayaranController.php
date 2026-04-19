@@ -9,7 +9,7 @@ class PembayaranController extends Controller
 {
     public function index()
     {
-        $payments = Pembayaran::with('invoice.klien')->get(); // Relasi antar tabel [cite: 65, 122]
+        $payments = Pembayaran::with('invoice.klien')->get(); 
         return view('pembayaran', compact('payments'));
     }
 }

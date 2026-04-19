@@ -10,14 +10,12 @@ class InvoPaySeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Insert Admin
         DB::table('tb_admin')->insert([
             'nama_admin' => 'Admin Utama',
             'email' => 'admin@invopay.com',
             'password' => Hash::make('admin123'),
         ]);
 
-        // 2. Insert Klien (11 Data)
         DB::table('tb_klien')->insert([
             ['nama_klien' => 'PT Teknologi Maju', 'email_klien' => 'info@tekano.com'],
             ['nama_klien' => 'CV Sejahtera', 'email_klien' => 'kontak@sejahtera.id'],
@@ -32,7 +30,6 @@ class InvoPaySeeder extends Seeder
             ['nama_klien' => 'Bina Usaha Mandiri', 'email_klien' => 'bina.usaha@gmail.com'],
         ]);
 
-        // 3. Insert Invoice (11 Data)
         DB::table('tb_invoice')->insert([
             ['no_invoice' => 'INV-001', 'id_klien' => 1, 'id_admin' => 1, 'tanggal_buat' => '2026-04-01', 'tanggal_jatuh_tempo' => '2026-04-15', 'total' => 5000000, 'status' => 'Paid'],
             ['no_invoice' => 'INV-002', 'id_klien' => 2, 'id_admin' => 1, 'tanggal_buat' => '2026-04-05', 'tanggal_jatuh_tempo' => '2026-04-10', 'total' => 1500000, 'status' => 'Overdue'],

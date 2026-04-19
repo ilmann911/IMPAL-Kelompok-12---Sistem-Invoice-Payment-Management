@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice; // Pastikan Model Invoice dipanggil
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller

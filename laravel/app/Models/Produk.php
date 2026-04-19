@@ -12,7 +12,6 @@ class Produk extends Model
     protected $table = 'tb_produk';
     protected $primaryKey = 'id_produk';
     
-    // Mengizinkan semua kolom diisi (Mass Assignment)
     protected $guarded = [];
 
     public function rincianInvoice()

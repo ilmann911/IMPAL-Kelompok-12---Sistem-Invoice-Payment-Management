@@ -9,7 +9,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::with('klien')->get(); // Mengambil data klien sesuai ERD [cite: 122]
+        $invoices = Invoice::with('klien')->get();
         return view('invoice', compact('invoices'));
     }
 }

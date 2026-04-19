@@ -12,7 +12,6 @@ class Pembayaran extends Model
     protected $table = 'tb_pembayaran';
     protected $primaryKey = 'id_pembayaran';
     
-    // Mengizinkan semua kolom diisi (Mass Assignment)
     protected $guarded = [];
 
     public function invoice()
