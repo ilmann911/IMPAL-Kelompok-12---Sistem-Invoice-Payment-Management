@@ -15,6 +15,10 @@
             </div>
             <nav class="mt-4">
                 <a href="{{ route('dashboard') }}" class="block px-6 py-3 {{ request()->is('/') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Dashboard</a>
+                <a href="{{ route('klien.index') }}" class="block px-6 py-3 {{ request()->is('klien*') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Kelola Klien</a>
+                
+                <a href="{{ route('produk.index') }}" class="block px-6 py-3 {{ request()->is('produk*') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Kelola Produk</a>
+
                 <a href="{{ route('invoice.index') }}" class="block px-6 py-3 {{ request()->is('invoice*') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Kelola Invoice</a>
                 <a href="{{ route('pembayaran.index') }}" class="block px-6 py-3 {{ request()->is('pembayaran*') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Pembayaran</a>
                 <a href="{{ route('laporan.index') }}" class="block px-6 py-3 {{ request()->is('laporan*') ? 'bg-blue-600 text-white' : 'text-slate-300' }} hover:bg-slate-800">Laporan</a>
