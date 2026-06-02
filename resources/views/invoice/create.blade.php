@@ -1,117 +1,155 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Invoice - InvoPay</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex h-screen overflow-hidden">
+@extends('layouts.app')
 
-    <div class="w-64 bg-[#1e222d] text-white flex flex-col justify-between">
-        <div>
-            <div class="p-6 bg-white text-blue-600 font-bold text-2xl flex items-center">
-                <span class="mr-2">📄</span> InvoPay
-            </div>
-            <nav class="mt-4">
-                <a href="{{ route('dashboard') }}" class="block px-6 py-3 text-slate-300 hover:bg-slate-800">Dashboard</a>
-                <a href="{{ route('klien.index') }}" class="block px-6 py-3 text-slate-300 hover:bg-slate-800">Kelola Klien</a>
-                <a href="{{ route('produk.index') }}" class="block px-6 py-3 text-slate-300 hover:bg-slate-800">Kelola Produk</a>
-                <a href="{{ route('invoice.index') }}" class="block px-6 py-3 bg-blue-600 text-white font-semibold">Kelola Invoice</a>
-                <a href="#" class="block px-6 py-3 text-slate-300 hover:bg-slate-800">Pembayaran</a>
-                <a href="#" class="block px-6 py-3 text-slate-300 hover:bg-slate-800">Laporan</a>
-            </nav>
-        </div>
-        <div class="p-6">
-            <a href="#" class="text-red-400 hover:text-red-500">Logout</a>
-        </div>
-    </div>
+@section('content')
+<style>
+    /* Wadah Form (Konsisten dengan modul lain) */
+    .form-container {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        max-width: 900px;
+    }
 
-    <div class="flex-1 flex flex-col bg-blue-400 overflow-y-auto">
-        <header class="bg-white px-6 py-4 flex justify-between items-center shadow">
-            <h2 class="text-xl font-bold text-gray-800">Tambah Invoice Baru</h2>
-            <span class="text-gray-600 text-sm font-semibold">Admin InvoPay</span>
-        </header>
+    /* Styling Input & Select */
+    .input-field {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px 20px;
+        width: 100%;
+        transition: all 0.3s;
+        color: #1b254b;
+        font-weight: 500;
+        appearance: none;
+    }
 
-        <div class="p-8 flex justify-center">
-            <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl">
-                
-                <form action="{{ route('invoice.store') }}" method="POST">
-                    @csrf
-                    
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Pilih Klien / Customer</label>
-                        <select name="id_klien" id="id_klien" class="w-full border p-3 rounded-lg focus:outline-blue-500 bg-gray-50" required onchange="cekPilihanKlien(this)">
-                            <option value="">-- Pilih Customer --</option>
-                            @foreach($klien as $k)
-                                <option value="{{ $k->id_klien }}">{{ $k->nama_klien }}</option>
-                            @endforeach
-                            <option value="new" class="font-bold text-blue-600 bg-blue-50">✨ + Tambah Klien Baru...</option>
-                        </select>
-                    </div>
+    .input-field:focus {
+        outline: none;
+        border-color: #5b80ff;
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(91, 128, 255, 0.1);
+    }
 
-                    <div id="form_klien_baru" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
-                        <p class="font-bold text-blue-800 mb-2 text-sm text-center">Data Klien Baru</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" name="nama_klien_baru" id="nama_klien_baru" placeholder="Nama Perusahaan" class="w-full border p-2 rounded focus:outline-blue-500">
-                            <input type="email" name="email_klien_baru" id="email_klien_baru" placeholder="Email Klien" class="w-full border p-2 rounded focus:outline-blue-500">
-                        </div>
-                    </div>
+    .input-label {
+        display: block;
+        font-weight: 700;
+        color: #1b254b;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
 
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-bold mb-2">Produk / Jasa</label>
-                        <select name="id_produk" class="w-full border p-3 rounded-lg focus:outline-blue-500 bg-gray-50" required>
-                            <option value="">-- Pilih Produk atau Jasa --</option>
-                            @foreach($produk as $p)
-                                <option value="{{ $p->id_produk }}">
-                                    {{ $p->nama_produk }} - (Rp {{ number_format($p->harga_satuan, 0, ',', '.') }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <p class="text-xs text-slate-500 mt-2 italic">Total tagihan akan otomatis menyesuaikan dengan harga jasa yang dipilih.</p>
-                    </div>
+    .select-wrapper {
+        position: relative;
+    }
 
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <label class="block text-gray-700 font-bold mb-2">Tanggal Buat</label>
-                            <input type="date" name="tanggal_buat" class="w-full border p-3 rounded-lg focus:outline-blue-500 bg-gray-50" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-bold mb-2">Jatuh Tempo</label>
-                            <input type="date" name="tanggal_jatuh_tempo" class="w-full border p-3 rounded-lg focus:outline-blue-500 bg-gray-50" required>
-                        </div>
-                    </div>
+    .select-wrapper::after {
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+        pointer-events: none;
+    }
+</style>
 
-                    <div class="flex justify-end space-x-3">
-                        <a href="{{ route('invoice.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded shadow transition">Batal</a>
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition">
-                            Simpan Invoice
-                        </button>
-                    </div>
-                </form>
+<div class="mb-8">
+    <h2 class="text-3xl font-extrabold text-[#1b254b]">Tambah Invoice Baru</h2>
+    <p class="text-gray-400 mt-1 font-medium">Pilih klien dan layanan untuk menerbitkan tagihan secara instan.</p>
+</div>
 
+<div class="form-container">
+    <form action="{{ route('invoice.store') }}" method="POST">
+        @csrf
+        
+        <div class="mb-6">
+            <label class="input-label">Pilih Klien / Customer</label>
+            <div class="select-wrapper">
+                <select name="id_klien" id="id_klien" class="input-field" required onchange="cekPilihanKlien(this)">
+                    <option value="" disabled selected>-- Pilih Customer --</option>
+                    @foreach($klien as $k)
+                        <option value="{{ $k->id_klien }}">{{ $k->nama_klien }}</option>
+                    @endforeach
+                    <option value="new" class="font-bold text-[#5b80ff] bg-[#f4f7fe]">✨ + Tambah Klien Baru...</option>
+                </select>
             </div>
         </div>
-    </div>
 
-    <script>
-        function cekPilihanKlien(selectElement) {
-            var formBaru = document.getElementById('form_klien_baru');
-            var inputNama = document.getElementById('nama_klien_baru');
-            var inputEmail = document.getElementById('email_klien_baru');
+        <div id="form_klien_baru" class="hidden bg-[#f4f7fe] p-5 rounded-xl border border-[#dce4ff] mb-6">
+            <p class="font-bold text-[#5b80ff] mb-4 text-sm"><i class="fas fa-user-plus mr-2"></i>Data Klien Baru</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" name="nama_klien_baru" id="nama_klien_baru" placeholder="Nama Perusahaan" class="input-field !py-2.5">
+                <input type="email" name="email_klien_baru" id="email_klien_baru" placeholder="Email Klien" class="input-field !py-2.5">
+            </div>
+        </div>
 
-            if (selectElement.value === 'new') {
-                formBaru.classList.remove('hidden');
-                inputNama.required = true;
-                inputEmail.required = true;
-            } else {
-                formBaru.classList.add('hidden');
-                inputNama.required = false;
-                inputEmail.required = false;
-                inputNama.value = '';
-                inputEmail.value = '';
-            }
+        <div class="mb-8">
+            <label class="input-label">Produk / Jasa</label>
+            <div class="select-wrapper">
+                <select name="id_produk" class="input-field" required>
+                    <option value="" disabled selected>-- Pilih Produk atau Jasa --</option>
+                    @foreach($produk as $p)
+                        <option value="{{ $p->id_produk }}">
+                            {{ $p->nama_produk }} - Rp {{ number_format($p->harga_satuan, 0, ',', '.') }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <p class="text-xs text-blue-500 mt-3 font-medium italic">
+                <i class="fas fa-info-circle mr-1"></i> Total tagihan akan otomatis menyesuaikan harga jasa.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+            <div>
+                <label class="input-label">Tanggal Buat</label>
+                <input type="date" name="tanggal_buat" class="input-field" value="{{ date('Y-m-d') }}" required>
+            </div>
+
+            <div>
+                <label class="input-label">Jatuh Tempo</label>
+                <input type="date" name="tanggal_jatuh_tempo" class="input-field" required>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-4 mt-10 pt-8 border-t border-gray-100">
+            <a href="{{ route('invoice.index') }}" 
+               class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 px-8 rounded-xl transition duration-300">
+                Batal
+            </a>
+            <button type="submit" 
+                    class="bg-[#5b80ff] hover:bg-blue-600 text-white font-bold py-3 px-10 rounded-xl transition duration-300 shadow-md shadow-blue-500/30">
+                <i class="fas fa-save mr-2"></i> Simpan Invoice
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function cekPilihanKlien(selectElement) {
+        var formBaru = document.getElementById('form_klien_baru');
+        var inputNama = document.getElementById('nama_klien_baru');
+        var inputEmail = document.getElementById('email_klien_baru');
+
+        if (selectElement.value === 'new') {
+            // Tampilkan form
+            formBaru.classList.remove('hidden');
+            // Wajib diisi
+            inputNama.required = true;
+            inputEmail.required = true;
+        } else {
+            // Sembunyikan form
+            formBaru.classList.add('hidden');
+            // Hilangkan wajib isi
+            inputNama.required = false;
+            inputEmail.required = false;
+            // Kosongkan value agar tidak terkirim tidak sengaja
+            inputNama.value = '';
+            inputEmail.value = '';
         }
-    </script>
-</body>
-</html>
+    }
+</script>
+@endsection

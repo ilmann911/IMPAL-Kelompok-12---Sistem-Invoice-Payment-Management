@@ -1,48 +1,117 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="grid grid-cols-4 gap-4 mb-8">
-    <div class="bg-white rounded shadow border-t-4 border-blue-500 p-4">
-        <h3 class="text-sm font-bold text-slate-700">Total Invoice</h3>
-        <p class="text-3xl font-bold mt-2">{{ $totalInvoice }}</p>
+<style>
+    /* --- CSS ANIMASI KUSTOM --- */
+    @keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-entrance {
+        opacity: 0;
+        animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Styling Kartu Metrik Persis Gambar */
+    .card-metric {
+        border-radius: 20px;
+        padding: 24px 30px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    
+    /* Lingkaran Dekorasi Transparan di Kanan */
+    .card-metric::after {
+        content: '';
+        position: absolute;
+        right: -30px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 130px;
+        height: 130px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+    }
+
+    /* Warna Kartu Solid Soft */
+    .bg-card-blue { background-color: #5b80ff; }
+    .bg-card-green { background-color: #48bb78; }
+    .bg-card-gray { background-color: #a0aec0; }
+    .bg-card-red { background-color: #fc8181; }
+    
+    .metric-title { font-size: 14px; font-weight: 500; margin-bottom: 6px;}
+    .metric-value { font-size: 38px; font-weight: 800; line-height: 1; }
+    
+    /* Styling Wadah Tabel */
+    .table-container {
+        background: white;
+        border-radius: 24px;
+        padding: 30px 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        margin-top: 30px;
+    }
+    
+    table th { font-size: 11px; font-weight: 800; color: #a3aed1; letter-spacing: 0.5px; border-bottom: 1px solid #f4f7fe; padding-bottom: 20px; }
+    table td { padding: 22px 0; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600;}
+    table tr:last-child td { border-bottom: none; }
+    
+    /* Warna Status Pil */
+    .badge { padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .badge-paid { background-color: #def7ec; color: #057a55; }
+    .badge-draft { background-color: #f3f4f6; color: #4b5563; }
+    .badge-sent { background-color: #e1effe; color: #1e429f; }
+    .badge-overdue { background-color: #fde8e8; color: #c81e1e; }
+    .badge-pending { background-color: #fef3c7; color: #b45309; }
+</style>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="card-metric bg-card-blue animate-entrance" style="animation-delay: 0.1s;">
+        <div class="metric-title">Total Invoice</div>
+        <div class="metric-value">{{ $totalInvoice }}</div>
     </div>
-    <div class="bg-green-500 rounded shadow p-4 text-white">
-        <h3 class="text-sm font-bold">Paid</h3>
-        <p class="text-3xl font-bold mt-2">{{ $paid }}</p>
+    <div class="card-metric bg-card-green animate-entrance" style="animation-delay: 0.2s;">
+        <div class="metric-title">Paid</div>
+        <div class="metric-value">{{ $paid }}</div>
     </div>
-    <div class="bg-slate-400 rounded shadow p-4 text-white">
-        <h3 class="text-sm font-bold">Unpaid</h3>
-        <p class="text-3xl font-bold mt-2">{{ $unpaid }}</p>
+    <div class="card-metric bg-card-gray animate-entrance" style="animation-delay: 0.3s;">
+        <div class="metric-title">Unpaid</div>
+        <div class="metric-value">{{ $unpaid }}</div>
     </div>
-    <div class="bg-red-500 rounded shadow p-4 text-white">
-        <h3 class="text-sm font-bold">Overdue</h3>
-        <p class="text-3xl font-bold mt-2">{{ $overdue }}</p>
+    <div class="card-metric bg-card-red animate-entrance" style="animation-delay: 0.4s;">
+        <div class="metric-title">Overdue</div>
+        <div class="metric-value">{{ $overdue }}</div>
     </div>
 </div>
 
-<div class="bg-white rounded shadow overflow-hidden">
+<div class="table-container animate-entrance" style="animation-delay: 0.5s;">
     <table class="w-full text-left border-collapse">
         <thead>
-            <tr class="bg-slate-100 text-slate-600 text-sm uppercase border-b">
-                <th class="p-4">No. Invoice</th>
-                <th class="p-4">Customer</th>
-                <th class="p-4">Date</th>
-                <th class="p-4">Total</th>
-                <th class="p-4">Status</th>
+            <tr class="uppercase">
+                <th>No. Invoice</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach($invoices as $inv)
-            <tr class="border-b hover:bg-slate-50">
-                <td class="p-4 font-semibold text-slate-800">{{ $inv->no_invoice }}</td>
-                <td class="p-4">{{ $inv->klien->nama_klien ?? 'Tidak Diketahui' }}</td> 
-                <td class="p-4">{{ $inv->tanggal_buat }}</td>
-                <td class="p-4">Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
-                <td class="p-4">
-                    <span class="px-2 py-1 text-xs font-bold rounded 
-                        {{ $inv->status == 'Paid' ? 'bg-green-100 text-green-700' : '' }}
-                        {{ $inv->status == 'Sent' || $inv->status == 'Draft' ? 'bg-slate-200 text-slate-700' : '' }}
-                        {{ $inv->status == 'Overdue' ? 'bg-red-100 text-red-700' : '' }}">
+            <tr class="hover:bg-[#f4f7fe]/50 transition-colors">
+                <td class="font-extrabold text-[#1b254b]">{{ $inv->no_invoice }}</td>
+                <td class="font-medium text-gray-500">{{ $inv->klien->nama_klien ?? 'Tidak Diketahui' }}</td> 
+                <td class="font-medium text-gray-500">{{ $inv->tanggal_buat }}</td>
+                <td>Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
+                <td>
+                    <span class="badge 
+                        {{ $inv->status == 'Paid' ? 'badge-paid' : '' }}
+                        {{ $inv->status == 'Pending' ? 'badge-pending' : '' }}
+                        {{ $inv->status == 'Sent' ? 'badge-sent' : '' }}
+                        {{ $inv->status == 'Draft' ? 'badge-draft' : '' }}
+                        {{ $inv->status == 'Overdue' ? 'badge-overdue' : '' }}">
                         {{ $inv->status }}
                     </span>
                 </td>

@@ -1,21 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
+<style>
+    /* --- HANYA TAMBAHAN CSS ANIMASI KUSTOM --- */
+    @keyframes fadeSlideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-entrance {
+        opacity: 0;
+        animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+</style>
+
+<div class="flex justify-between items-center mb-6 animate-entrance" style="animation-delay: 0.1s;">
     <h2 class="text-2xl font-bold text-slate-800">Riwayat Pembayaran</h2>
-    <div class="flex space-x-2">
-        <input type="text" placeholder="Cari Pembayaran..." class="border p-2 rounded-lg text-sm w-64 focus:outline-blue-500">
-        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Filter</button>
-    </div>
+    
+    <form action="{{ route('pembayaran.index') }}" method="GET" class="flex space-x-2 m-0">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Pembayaran..." class="border p-2 rounded-lg text-sm w-64 focus:outline-blue-500">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Filter</button>
+    </form>
 </div>
 
 @if(session('success'))
-    <div class="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm border border-green-300">
+    <div class="bg-green-100 text-green-700 p-3 rounded mb-4 text-sm border border-green-300 animate-entrance" style="animation-delay: 0.2s;">
         {{ session('success') }}
     </div>
 @endif
 
-<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="bg-white rounded-lg shadow-md overflow-hidden animate-entrance" style="animation-delay: 0.3s;">
     <table class="w-full text-left border-collapse">
         <thead>
             <tr class="bg-slate-100 border-b text-sm font-bold text-slate-600 uppercase">
@@ -54,7 +68,7 @@
                     <div class="flex flex-col items-center space-y-2">
                         @if(isset($bayar->bukti_transfer) && $bayar->bukti_transfer != '')
                             <a href="{{ asset('uploads/bukti/' . $bayar->bukti_transfer) }}" target="_blank" class="bg-indigo-100 text-indigo-700 hover:bg-indigo-200 px-3 py-1 rounded text-xs font-bold transition w-full text-center">
-                                👁️ Lihat Bukti
+                                Lihat Bukti
                             </a>
                         @else
                             <span class="text-slate-400 italic text-xs">Tidak ada bukti</span>
@@ -64,7 +78,7 @@
                             <form action="{{ route('pembayaran.verify', $bayar->id_pembayaran) }}" method="POST" class="w-full">
                                 @csrf
                                 <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs font-bold transition w-full shadow-sm" onclick="return confirm('Verifikasi pembayaran ini? Status invoice akan otomatis menjadi Lunas (Paid).')">
-                                    ✅ Verifikasi
+                                    Verifikasi
                                 </button>
                             </form>
                         @endif
@@ -82,7 +96,7 @@
     </table>
 </div>
 
-<div class="mt-4 text-sm text-slate-500 italic">
+<div class="mt-4 text-sm text-slate-500 italic animate-entrance" style="animation-delay: 0.4s;">
     * Data ini disinkronkan otomatis saat pelanggan mengunggah bukti pembayaran. Admin memverifikasi bukti yang berstatus "Pending".
 </div>
 @endsection

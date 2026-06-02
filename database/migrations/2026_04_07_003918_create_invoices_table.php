@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_buat');
             $table->date('tanggal_jatuh_tempo');
             $table->decimal('total', 15, 2)->default(0);
-            $table->enum('status', ['Draft', 'Sent', 'Paid', 'Overdue'])->default('Draft');
+            $table->enum('status', ['Draft', 'Sent', 'Pending', 'Paid', 'Overdue'])->default('Draft');
             $table->timestamps();
 
             // Relasi (Foreign Keys)

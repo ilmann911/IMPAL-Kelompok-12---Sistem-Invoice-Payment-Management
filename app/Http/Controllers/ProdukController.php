@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\InvoiceDetail; // Digunakan untuk mengecek relasi invoice
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -20,49 +21,81 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi input disesuaikan dengan form
         $request->validate([
-            'nama_produk' => 'required|string|max:255',
-            'harga_satuan' => 'required|numeric|min:0', // <-- Disesuaikan
+            'nama_produk' => 'required|string|max:255|unique:tb_produk,nama_produk',
+            'harga_satuan' => 'required|numeric|min:0', 
+        ], [
+            'nama_produk.unique' => 'Nama Produk / Jasa ini sudah terdaftar di sistem!'
         ]);
 
-        // 2. Simpan ke database dengan menjabarkan kolomnya
         Produk::create([
-            'kode_produk'  => 'PRD-' . rand(100, 999), // Generate kode otomatis
+            'kode_produk'  => 'PRD-' . rand(100, 999), 
             'nama_produk'  => $request->nama_produk,
-            'satuan'       => 'Jasa', // Nilai default
-            'harga_satuan' => $request->harga_satuan, // Mengambil dari inputan form
-            'stock_min'    => 1,      // Nilai default
-            'stock'        => 1       // Nilai default
+            'satuan'       => 'Jasa', 
+            'harga_satuan' => $request->harga_satuan, 
+            'stock_min'    => 1,      
+            'stock'        => 1       
         ]);
 
         return redirect()->route('produk.index')->with('success', 'Produk / Jasa baru berhasil ditambahkan!');
     }
 
+    public function edit($id)
+    {
+        $produk = Produk::find($id);
+        
+        if (!$produk) {
+            return redirect()->route('produk.index')->with('error', 'Produk tidak ditemukan!');
+        }
+
+        return view('produk.edit', compact('produk'));
+    }
+
     public function update(Request $request, $id)
     {
-        // 1. Validasi input (Sama seperti saat store)
         $request->validate([
-            'nama_produk' => 'required|string|max:255',
+            'nama_produk' => 'required|string|max:255|unique:tb_produk,nama_produk,' . $id . ',id_produk',
             'harga_satuan' => 'required|numeric|min:0',
+        ], [
+            'nama_produk.unique' => 'Nama Produk / Jasa ini sudah digunakan!'
         ]);
 
-        // 2. Cari data produk berdasarkan ID (Panah No. 3 di Sequence Diagram)
         $produk = Produk::find($id);
 
         if (!$produk) {
-            return response()->json(['message' => 'Produk tidak ditemukan'], 404);
+            return redirect()->route('produk.index')->with('error', 'Produk tidak ditemukan!');
         }
 
-        // 3. Update data ke database (Panah No. 4 & 5 di Sequence Diagram)
-        $produk->update([
-            'kode_produk'  => $request->kode_produk,
+        $produk->fill([
             'nama_produk'  => $request->nama_produk,
             'harga_satuan' => $request->harga_satuan,
-            'stock'        => $request->stock,
         ]);
 
-        // 4. Redirect kembali dengan notifikasi (Panah No. 7 & 8 di Sequence Diagram)
+        if ($produk->isClean()) {
+            return redirect()->route('produk.index')->with('info', 'Tidak ada perubahan data yang dilakukan.');
+        }
+
+        $produk->save();
+
         return redirect()->route('produk.index')->with('success', 'Data Produk Berhasil Diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $produk = Produk::find($id);
+        
+        if ($produk) {
+            // Cek apakah produk ini sudah dipakai di dalam detail invoice
+            $dipakaiDiInvoice = InvoiceDetail::where('id_produk', $id)->exists();
+            
+            if ($dipakaiDiInvoice) {
+                return redirect()->route('produk.index')->with('error', 'Produk/Jasa tidak bisa dihapus karena sudah ada di dalam riwayat Invoice!');
+            }
+
+            $produk->delete();
+            return redirect()->route('produk.index')->with('success', 'Produk / Jasa berhasil dihapus!');
+        }
+
+        return redirect()->route('produk.index')->with('error', 'Produk tidak ditemukan!');
     }
 }

@@ -3,69 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Admin - InvoPay</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-6">
-
-    <div class="bg-white rounded-lg shadow-xl flex flex-col md:flex-row w-full max-w-4xl overflow-hidden">
+    <title>Register Admin - InvoPay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
         
-        <div class="bg-blue-600 text-white p-10 md:w-1/2 flex flex-col justify-center">
-            <h1 class="text-4xl font-bold mb-4">InvoPay</h1>
-            <p class="text-lg mb-6">Invoice System & Payment Management</p>
-            <ul class="space-y-3">
-                <li class="flex items-center">✓ Kelola Invoice</li>
-                <li class="flex items-center">✓ Pantau Pembayaran</li>
-                <li class="flex items-center">✓ Laporan & Rekap</li>
-            </ul>
+        /* --- CSS ANIMASI KUSTOM --- */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-entrance {
+            opacity: 0;
+            animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-[#f4f7fe] min-h-screen flex items-center justify-center relative overflow-hidden p-4">
+
+    <div class="absolute top-0 left-0 w-full h-[400px] bg-[#0b132b] rounded-b-[100px] shadow-lg"></div>
+
+    <div class="relative z-10 bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden border border-gray-100 animate-entrance" style="animation-delay: 0.1s;">
+        
+        <div class="hidden md:flex flex-col justify-center w-1/2 bg-[#5b80ff] p-12 text-white relative">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-[#0b132b]/10 rounded-tr-full"></div>
+            
+            <div class="relative z-10">
+                <i class="fas fa-file-invoice text-5xl mb-6 drop-shadow-md"></i>
+                <h1 class="text-4xl font-extrabold mb-2 tracking-tight">InvoPay</h1>
+                <p class="text-blue-100 mb-8 font-medium text-lg">Sistem Invoice & Payment Management Terintegrasi</p>
+                <ul class="space-y-4 text-sm font-medium">
+                    <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-white/80 text-lg"></i> Kelola Klien & Invoice</li>
+                    <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-white/80 text-lg"></i> Pantau Pembayaran Real-time</li>
+                    <li class="flex items-center"><i class="fas fa-check-circle mr-3 text-white/80 text-lg"></i> Laporan & Rekap Otomatis</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="p-10 md:w-1/2">
-            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Buat Akun!</h2>
-            <p class="text-gray-500 mb-6 text-center">Daftarkan akun Admin baru</p>
+        <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-white">
+            <div class="text-center mb-6">
+                <div class="md:hidden flex justify-center mb-4">
+                    <i class="fas fa-user-plus text-4xl text-[#0b132b]"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-[#1b254b] mb-2 tracking-tight">Buat Akun!</h2>
+                <p class="text-gray-500 text-sm font-medium">Daftarkan akun Admin baru</p>
+            </div>
 
             @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    <ul>
+                <div class="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl mb-6 text-sm">
+                    <div class="font-bold flex items-center mb-1">
+                        <i class="fas fa-exclamation-triangle mr-2"></i> Gagal Registrasi!
+                    </div>
+                    <ul class="list-disc pl-5 font-medium">
                         @foreach ($errors->all() as $error)
-                            <li>- {{ $error }}</li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
 
             <form action="{{ route('register.store') }}" method="POST">
-                @csrf <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Nama Lengkap</label>
-                    <input type="text" name="nama_admin" value="{{ old('nama_admin') }}" class="w-full px-3 py-2 border rounded-lg bg-blue-50 outline-none focus:border-blue-500" required>
+                @csrf 
+                
+                <div class="mb-4">
+                    <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Nama Lengkap</label>
+                    <input type="text" name="nama_admin" value="{{ old('nama_admin') }}" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="w-full px-3 py-2 border rounded-lg bg-blue-50 outline-none focus:border-blue-500" required>
+                    <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Email</label>
+                    <input type="email" name="email" value="{{ old('email') }}" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2">Password</label>
-                    <input type="password" name="password" class="w-full px-3 py-2 border rounded-lg bg-blue-50 outline-none focus:border-blue-500" required>
+                    <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" id="password" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                        <button type="button" onclick="togglePasswordVisibility('password', 'eyeIcon1')" class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#5b80ff] transition focus:outline-none">
+                            <i class="fas fa-eye" id="eyeIcon1"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-bold mb-2">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" class="w-full px-3 py-2 border rounded-lg bg-blue-50 outline-none focus:border-blue-500" required>
+                    <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Konfirmasi Password</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                        <button type="button" onclick="togglePasswordVisibility('password_confirmation', 'eyeIcon2')" class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#5b80ff] transition focus:outline-none">
+                            <i class="fas fa-eye" id="eyeIcon2"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
-                    Register
+                <button type="submit" class="w-full bg-[#0b132b] hover:bg-[#1b254b] text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-gray-500/30 transition duration-300 transform hover:-translate-y-1">
+                    Register Admin
                 </button>
             </form>
 
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600">Sudah punya akun? <a href="{{ route('login') }}" class="text-blue-600 font-bold hover:underline">Login di sini</a></p>
+            <div class="mt-5 text-center">
+                <p class="text-sm text-gray-500 font-medium">Sudah punya akun? <a href="{{ route('login') }}" class="text-[#5b80ff] font-bold hover:underline">Login di sini</a></p>
             </div>
+
+            <div class="mt-6 text-center pt-5 border-t border-gray-100">
+                <a href="{{ route('welcome') }}" class="text-sm text-gray-400 hover:text-[#5b80ff] font-bold transition flex items-center justify-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Halaman Utama
+                </a>
+            </div>
+
         </div>
 
     </div>
+
+    <script>
+        function togglePasswordVisibility(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        }
+    </script>
 
 </body>
 </html>

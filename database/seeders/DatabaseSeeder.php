@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Daftarkan InvoPaySeeder di sini agar otomatis ikut dieksekusi
+        $this->call(InvoPaySeeder::class);
 
+        // Data dummy bawaan untuk model User (bisa dipertahankan)
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

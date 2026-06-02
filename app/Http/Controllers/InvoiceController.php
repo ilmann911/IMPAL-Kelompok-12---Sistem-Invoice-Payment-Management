@@ -8,13 +8,32 @@ use App\Models\Klien;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // WAJIB TAMBAHKAN INI
+use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\Artisan; // Tambahan untuk mengeksekusi command manual
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::with('klien')->get();
+        // 1. Ambil kata kunci pencarian dari URL (jika ada)
+        $search = $request->input('search');
+
+        // 2. Siapkan query dasar
+        $query = Invoice::with('klien');
+
+        // 3. Jika ada input pencarian, filter datanya
+        if ($search) {
+            $query->where('no_invoice', 'LIKE', "%{$search}%")
+                  ->orWhere('status', 'LIKE', "%{$search}%")
+                  ->orWhereHas('klien', function($q) use ($search) {
+                      // Filter juga berdasarkan nama klien yang berelasi
+                      $q->where('nama_klien', 'LIKE', "%{$search}%");
+                  });
+        }
+
+        // 4. Eksekusi query
+        $invoices = $query->get();
+
         return view('invoice', compact('invoices'));
     }
 
@@ -71,7 +90,6 @@ class InvoiceController extends Controller
         return redirect()->route('invoice.index')->with('success', 'Sempurna! Invoice berhasil ditambahkan!');
     }
 
-    // FUNGSI BARU UNTUK TOMBOL AKSI
     public function updateStatus(Request $request, $id)
     {
         $request->validate(['status' => 'required']);
@@ -81,5 +99,17 @@ class InvoiceController extends Controller
             ->update(['status' => $request->status]);
 
         return redirect()->route('invoice.index')->with('success', 'Status invoice berhasil diperbarui!');
+    }
+
+    /**
+     * Memancing pengecekan jatuh tempo dan pengiriman email secara manual via tombol Admin.
+     */
+    public function triggerReminder()
+    {
+        // Mengeksekusi command artisan 'invoice:cek-jatuh-tempo' yang sudah dibuat
+        Artisan::call('invoice:cek-jatuh-tempo');
+
+        // Mengalihkan kembali ke halaman Kelola Invoice dengan membawa flash message sukses
+        return redirect()->back()->with('success', 'Pengecekan Jatuh Tempo & Pengiriman Email Reminder berhasil dieksekusi secara manual!');
     }
 }
