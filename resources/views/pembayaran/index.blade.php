@@ -95,8 +95,4 @@
         </tbody>
     </table>
 </div>
-
-<div class="mt-4 text-sm text-slate-500 italic animate-entrance" style="animation-delay: 0.4s;">
-    * Data ini disinkronkan otomatis saat pelanggan mengunggah bukti pembayaran. Admin memverifikasi bukti yang berstatus "Pending".
-</div>
 @endsection
