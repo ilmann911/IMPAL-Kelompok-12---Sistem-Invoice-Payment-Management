@@ -10,7 +10,9 @@ class InvoiceDetail extends Model
     use HasFactory;
 
     protected $table = 'tb_invoice_detail';
-    protected $primaryKey = 'id_invoice_detail';
+    
+    // PERBAIKAN: Ubah nama primary key agar persis dengan yang ada di database Railway
+    protected $primaryKey = 'id_detail';
     
     // Mengizinkan semua kolom diisi (Mass Assignment)
     protected $guarded = [];
