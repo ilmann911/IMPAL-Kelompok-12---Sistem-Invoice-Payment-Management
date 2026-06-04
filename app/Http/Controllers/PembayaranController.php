@@ -68,7 +68,7 @@ class PembayaranController extends Controller
         // 4. Simpan Pembayaran (Sesuai persis dengan struktur tb_pembayaran milikmu)
         DB::table('tb_pembayaran')->insert([
             'id_invoice' => $request->id_invoice,
-            'id_admin' => 1, // Wajib diisi sesuai database, kita set 1 (Sistem)
+            'id_admin' => $invoice->id_admin, // PERBAIKAN: Mengambil id_admin pembuat invoice secara dinamis
             'tanggal_bayar' => now()->toDateString(),
             'jumlah_bayar' => $invoice->total, // Wajib diisi sesuai database
             'metode_bayar' => $metodeEnum, // Nama kolom yang benar
