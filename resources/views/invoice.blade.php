@@ -63,10 +63,6 @@
     <h2 class="text-3xl font-extrabold text-[#1b254b]">Kelola Invoice</h2>
     
     <div class="flex items-center gap-3">
-        <a href="{{ route('invoice.trigger-reminder') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-xl transition duration-300 shadow-md shadow-yellow-500/30">
-            <i class="fas fa-sync-alt mr-1"></i> Cek Jatuh Tempo
-        </a>
-
         <a href="{{ route('invoice.create') }}" class="bg-[#5b80ff] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl transition duration-300 shadow-md shadow-blue-500/30">
             + Tambah Invoice
         </a>
@@ -97,7 +93,8 @@
                 <tr class="uppercase">
                     <th class="px-2">No. Invoice</th>
                     <th class="px-2">Customer</th>
-                    <th class="px-2">Date</th>
+                    <th class="px-2">Tgl Terbit</th>
+                    <th class="px-2">Jatuh Tempo</th>
                     <th class="px-2">Total</th>
                     <th class="px-2">Status</th>
                     <th class="px-2">Aksi</th>
@@ -108,7 +105,15 @@
                 <tr class="hover:bg-[#f4f7fe]/50 transition-colors">
                     <td class="font-extrabold text-[#1b254b] px-2">{{ $inv->no_invoice }}</td>
                     <td class="font-medium text-gray-500 px-2">{{ $inv->klien->nama_klien ?? 'Tidak Diketahui' }}</td> 
-                    <td class="font-medium text-gray-500 px-2">{{ $inv->tanggal_buat }}</td>
+                    <td class="font-medium text-gray-500 px-2">{{ \Carbon\Carbon::parse($inv->tanggal_buat)->format('Y-m-d') }}</td>
+                    <td class="font-bold px-2 
+                        {{ $inv->status == 'Paid' ? 'text-[#057a55]' : '' }}
+                        {{ $inv->status == 'Pending' ? 'text-[#b45309]' : '' }}
+                        {{ $inv->status == 'Sent' ? 'text-[#1e429f]' : '' }}
+                        {{ $inv->status == 'Draft' ? 'text-[#4b5563]' : '' }}
+                        {{ $inv->status == 'Overdue' ? 'text-[#c81e1e]' : '' }}">
+                        {{ \Carbon\Carbon::parse($inv->tanggal_jatuh_tempo)->format('Y-m-d') }}
+                    </td>
                     <td class="font-extrabold text-[#1b254b] px-2">Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
                     <td class="px-2">
                         <span class="badge 
@@ -136,7 +141,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center py-8 text-gray-500 font-medium">
+                    <td colspan="7" class="text-center py-8 text-gray-500 font-medium">
                         <i class="fas fa-search text-2xl mb-2 text-gray-300 block"></i>
                         Data invoice tidak ditemukan.
                     </td>

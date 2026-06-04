@@ -20,12 +20,12 @@
 
         .info-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
         .info-table td { width: 50%; padding: 0; }
-        .info-title { font-size: 12px; color: #718096; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
+        .info-title { font-size: 11px; color: #718096; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
         
         .item-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .item-table th { background-color: #5b80ff; color: white; text-align: left; padding: 12px; font-size: 12px; text-transform: uppercase; }
-        .item-table td { border-bottom: 1px solid #e2e8f0; padding: 12px; }
-        .item-table .total-row td { border-bottom: none; font-size: 18px; font-weight: bold; color: #1b254b; padding-top: 20px; }
+        .item-table td { border-bottom: 1px solid #e2e8f0; padding: 12px; font-size: 13px; }
+        .total-row td { border-top: 2px solid #5b80ff; font-size: 16px; font-weight: bold; color: #1b254b; padding-top: 15px; }
         
         .footer { margin-top: 50px; text-align: center; color: #718096; font-size: 12px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
     </style>
@@ -43,22 +43,12 @@
                 <div style="font-size: 16px; font-weight: bold; color: #4a5568; margin-top: 5px;">{{ $invoice->no_invoice }}</div>
                 
                 @php
-                    $bgClass = '';
+                    $bgClass = 'bg-draft';
                     $displayStatus = $invoice->status;
-
-                    if($invoice->status == 'Paid') { 
-                        $bgClass = 'bg-paid'; 
-                    }
-                    elseif($invoice->status == 'Pending') { 
-                        $bgClass = 'bg-pending'; 
-                    }
-                    elseif($invoice->status == 'Sent') { 
-                        $bgClass = 'bg-sent'; 
-                        $displayStatus = 'Unpaid'; // Mengubah 'Sent' menjadi 'Unpaid' khusus untuk PDF klien
-                    }
-                    elseif($invoice->status == 'Overdue') { 
-                        $bgClass = 'bg-overdue'; 
-                    }
+                    if($invoice->status == 'Paid') { $bgClass = 'bg-paid'; }
+                    elseif($invoice->status == 'Pending') { $bgClass = 'bg-pending'; }
+                    elseif($invoice->status == 'Sent') { $bgClass = 'bg-sent'; $displayStatus = 'Unpaid'; }
+                    elseif($invoice->status == 'Overdue') { $bgClass = 'bg-overdue'; }
                 @endphp
                 <div class="badge-status {{ $bgClass }}">{{ strtoupper($displayStatus) }}</div>
             </td>
@@ -102,18 +92,18 @@
                 <td><strong>{{ $item->nama_produk }}</strong></td>
                 <td style="text-align: center;">{{ $item->quantity }}</td>
                 <td style="text-align: right;">Rp {{ number_format($item->harga_jual_saat_ini, 0, ',', '.') }}</td>
-                <td style="text-align: right; font-weight: bold;">Rp {{ number_format($item->quantity * $item->harga_jual_saat_ini, 0, ',', '.') }}</td>
+                <td style="text-align: right;">Rp {{ number_format($item->quantity * $item->harga_jual_saat_ini, 0, ',', '.') }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="4" style="text-align: center; color: #a0aec0; padding: 20px;">Detail produk tidak ditemukan dalam database.</td>
+                <td colspan="4" style="text-align: center; color: #a0aec0; padding: 20px;">Detail produk tidak ditemukan.</td>
             </tr>
             @endforelse
             
             <tr class="total-row">
                 <td colspan="2"></td>
-                <td style="text-align: right; color: #718096; font-size: 14px; padding-top: 25px;">TOTAL TAGIHAN:</td>
-                <td style="text-align: right; padding-top: 25px;">Rp {{ number_format($invoice->total, 0, ',', '.') }}</td>
+                <td style="text-align: right; color: #718096; font-size: 14px;">TOTAL TAGIHAN:</td>
+                <td style="text-align: right; color: #5b80ff;">Rp {{ number_format($invoice->total, 0, ',', '.') }}</td>
             </tr>
         </tbody>
     </table>

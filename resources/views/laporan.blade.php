@@ -85,19 +85,38 @@
     
     <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.6s;">
         <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Pendapatan (Lunas)</h4>
-        <div class="text-[32px] md:text-[34px] font-extrabold text-[#48bb78] tracking-tight text-center">
+        <div class="text-[30px] md:text-[32px] font-extrabold text-[#48bb78] tracking-tight text-center">
             Rp {{ number_format($totalPendapatan, 0, ',', '.') }}
         </div>
     </div>
 
-    <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.62s;">
-        <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Total Piutang (Menunggak)</h4>
-        <div class="text-[32px] md:text-[34px] font-extrabold text-[#fc8181] tracking-tight text-center">
+    <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.61s;">
+        <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Total Piutang (Belum Lunas)</h4>
+        <div class="text-[30px] md:text-[32px] font-extrabold text-[#a0aec0] tracking-tight text-center">
             Rp {{ number_format($totalPiutang, 0, ',', '.') }}
         </div>
     </div>
 
-    <div class="content-card flex flex-col justify-center animate-entrance" style="animation-delay: 0.65s;">
+    <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.62s;">
+        <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Piutang Macet (Overdue)</h4>
+        <div class="text-[30px] md:text-[32px] font-extrabold text-[#fc8181] tracking-tight text-center">
+            Rp {{ number_format($totalOverdueNominal, 0, ',', '.') }}
+        </div>
+    </div>
+
+</div>
+
+<div class="mb-6 animate-entrance" style="animation-delay: 0.63s;">
+    <div class="content-card flex flex-col justify-center items-center py-8 w-full border-t-4 border-[#5b80ff]">
+        <h4 class="text-gray-500 font-bold text-[15px] text-center mb-3 uppercase tracking-wider">Total Invoice (Keseluruhan)</h4>
+        <div class="text-[36px] md:text-[40px] font-extrabold text-[#5b80ff] tracking-tight text-center">
+            Rp {{ number_format($totalKeseluruhan, 0, ',', '.') }}
+        </div>
+    </div>
+</div>
+
+<div class="mb-6 animate-entrance" style="animation-delay: 0.65s;">
+    <div class="content-card flex flex-col justify-center w-full">
         <h4 class="text-[#1b254b] font-extrabold text-sm uppercase tracking-wider mb-5 flex items-center">
             <i class="fas fa-crown text-yellow-500 mr-2 text-lg"></i> Top Klien
         </h4>

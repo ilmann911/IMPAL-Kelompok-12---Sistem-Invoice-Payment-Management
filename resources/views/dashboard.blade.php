@@ -88,36 +88,47 @@
 </div>
 
 <div class="table-container animate-entrance" style="animation-delay: 0.5s;">
-    <table class="w-full text-left border-collapse">
-        <thead>
-            <tr class="uppercase">
-                <th>No. Invoice</th>
-                <th>Customer</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($invoices as $inv)
-            <tr class="hover:bg-[#f4f7fe]/50 transition-colors">
-                <td class="font-extrabold text-[#1b254b]">{{ $inv->no_invoice }}</td>
-                <td class="font-medium text-gray-500">{{ $inv->klien->nama_klien ?? 'Tidak Diketahui' }}</td> 
-                <td class="font-medium text-gray-500">{{ $inv->tanggal_buat }}</td>
-                <td>Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
-                <td>
-                    <span class="badge 
-                        {{ $inv->status == 'Paid' ? 'badge-paid' : '' }}
-                        {{ $inv->status == 'Pending' ? 'badge-pending' : '' }}
-                        {{ $inv->status == 'Sent' ? 'badge-sent' : '' }}
-                        {{ $inv->status == 'Draft' ? 'badge-draft' : '' }}
-                        {{ $inv->status == 'Overdue' ? 'badge-overdue' : '' }}">
-                        {{ $inv->status }}
-                    </span>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="uppercase">
+                    <th>No. Invoice</th>
+                    <th>Customer</th>
+                    <th>Tgl Terbit</th>
+                    <th>Jatuh Tempo</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($invoices as $inv)
+                <tr class="hover:bg-[#f4f7fe]/50 transition-colors">
+                    <td class="font-extrabold text-[#1b254b]">{{ $inv->no_invoice }}</td>
+                    <td class="font-medium text-gray-500">{{ $inv->klien->nama_klien ?? 'Tidak Diketahui' }}</td> 
+                    <td class="font-medium text-gray-500">{{ \Carbon\Carbon::parse($inv->tanggal_buat)->format('Y-m-d') }}</td>
+                    <td class="font-bold 
+                        {{ $inv->status == 'Paid' ? 'text-[#057a55]' : '' }}
+                        {{ $inv->status == 'Pending' ? 'text-[#b45309]' : '' }}
+                        {{ $inv->status == 'Sent' ? 'text-[#1e429f]' : '' }}
+                        {{ $inv->status == 'Draft' ? 'text-[#4b5563]' : '' }}
+                        {{ $inv->status == 'Overdue' ? 'text-[#c81e1e]' : '' }}">
+                        {{ \Carbon\Carbon::parse($inv->tanggal_jatuh_tempo)->format('Y-m-d') }}
+                    </td>
+                    <td class="font-extrabold text-[#1b254b]">Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
+                    <td>
+                        <span class="badge 
+                            {{ $inv->status == 'Paid' ? 'badge-paid' : '' }}
+                            {{ $inv->status == 'Pending' ? 'badge-pending' : '' }}
+                            {{ $inv->status == 'Sent' ? 'badge-sent' : '' }}
+                            {{ $inv->status == 'Draft' ? 'badge-draft' : '' }}
+                            {{ $inv->status == 'Overdue' ? 'badge-overdue' : '' }}">
+                            {{ $inv->status }}
+                        </span>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection

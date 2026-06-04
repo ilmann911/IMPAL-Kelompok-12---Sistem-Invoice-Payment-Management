@@ -71,18 +71,18 @@
                 
                 <div class="mb-4">
                     <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Nama Lengkap</label>
-                    <input type="text" name="nama_admin" value="{{ old('nama_admin') }}" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                    <input type="text" name="nama_admin" value="{{ old('nama_admin') }}" placeholder="Masukkan nama lengkap" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b] placeholder-gray-400" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="admin@invopay.com" class="w-full border-2 border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b] placeholder-gray-400" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Password</label>
                     <div class="relative">
-                        <input type="password" name="password" id="password" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                        <input type="password" name="password" id="password" placeholder="Masukkan password" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b] placeholder-gray-400" required>
                         <button type="button" onclick="togglePasswordVisibility('password', 'eyeIcon1')" class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#5b80ff] transition focus:outline-none">
                             <i class="fas fa-eye" id="eyeIcon1"></i>
                         </button>
@@ -92,7 +92,7 @@
                 <div class="mb-6">
                     <label class="block text-[#1b254b] font-bold mb-1.5 text-sm">Konfirmasi Password</label>
                     <div class="relative">
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b]" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Masukkan ulang password" class="w-full border-2 border-gray-200 p-3 pr-12 rounded-xl focus:outline-none focus:border-[#5b80ff] focus:ring-4 focus:ring-blue-500/10 bg-gray-50 transition font-medium text-[#1b254b] placeholder-gray-400" required>
                         <button type="button" onclick="togglePasswordVisibility('password_confirmation', 'eyeIcon2')" class="absolute right-4 inset-y-0 flex items-center text-gray-400 hover:text-[#5b80ff] transition focus:outline-none">
                             <i class="fas fa-eye" id="eyeIcon2"></i>
                         </button>
