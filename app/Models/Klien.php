@@ -14,6 +14,7 @@ class Klien extends Model
     
     protected $guarded = [];
 
+    // ===== TAMBAHAN KODE UNTUK MENGHITUNG STATISTIK INVOICE =====
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'id_klien', 'id_klien');

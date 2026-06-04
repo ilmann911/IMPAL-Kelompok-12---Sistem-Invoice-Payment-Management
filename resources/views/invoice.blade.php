@@ -52,11 +52,26 @@
     .badge-pending { background-color: #fef3c7; color: #b45309; }
 
     /* Tombol Aksi */
-    .btn-action { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; transition: all 0.2s; display: inline-block; text-align: center; }
+    .btn-action { font-size: 12px; font-weight: 700; padding: 6px 0; border-radius: 8px; transition: all 0.2s; display: block; width: 100%; text-align: center; box-sizing: border-box; }
     .btn-blue { background-color: #3b82f6; color: white; }
     .btn-blue:hover { background-color: #2563eb; }
     .btn-green { background-color: #22c55e; color: white; }
     .btn-green:hover { background-color: #16a34a; }
+    
+    /* Tombol Detail Baru */
+    .btn-detail { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; cursor: pointer; }
+    .btn-detail:hover { background-color: #e2e8f0; color: #1e293b; }
+
+    /* --- CSS UNTUK MODAL POP-UP --- */
+    .modal-overlay { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
+    .modal-content { background-color: #ffffff; margin: 8% auto; padding: 30px; border-radius: 16px; width: 90%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .close-modal { float: right; font-size: 24px; font-weight: bold; color: #94a3b8; cursor: pointer; transition: 0.2s; line-height: 1; }
+    .close-modal:hover { color: #ef4444; }
+    
+    /* Tabel di dalam Modal */
+    .detail-table th { background-color: #f8fafc; padding: 10px; font-size: 10px; color: #64748b; border-bottom: none; }
+    .detail-table td { padding: 10px; font-size: 12px; border-bottom: 1px solid #f1f5f9; }
 </style>
 
 <div class="flex justify-between items-center mb-8 animate-entrance" style="animation-delay: 0.1s;">
@@ -96,8 +111,8 @@
                     <th class="px-2">Tgl Terbit</th>
                     <th class="px-2">Jatuh Tempo</th>
                     <th class="px-2">Total</th>
-                    <th class="px-2">Status</th>
-                    <th class="px-2">Aksi</th>
+                    <th class="px-2 text-center">Status</th>
+                    <th class="px-2 text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-sm">
@@ -115,7 +130,7 @@
                         {{ \Carbon\Carbon::parse($inv->tanggal_jatuh_tempo)->format('Y-m-d') }}
                     </td>
                     <td class="font-extrabold text-[#1b254b] px-2">Rp {{ number_format($inv->total, 0, ',', '.') }}</td>
-                    <td class="px-2">
+                    <td class="px-2 text-center">
                         <span class="badge 
                             {{ $inv->status == 'Paid' ? 'badge-paid' : '' }}
                             {{ $inv->status == 'Pending' ? 'badge-pending' : '' }}
@@ -126,16 +141,22 @@
                         </span>
                     </td>
                     <td class="px-2">
-                        <div class="flex items-center gap-2">
-                            @if($inv->status == 'Draft')
-                                <form action="{{ route('invoice.updateStatus', $inv->id_invoice) }}" method="POST" class="m-0 p-0">
-                                    @csrf
-                                    <input type="hidden" name="status" value="Sent">
-                                    <button type="submit" class="btn-action btn-blue">Kirim</button>
-                                </form>
-                            @else
-                                <span class="text-gray-400 font-medium pl-4">-</span>
-                            @endif
+                        <div class="flex items-center justify-center gap-2">
+                            <div class="w-[75px] flex justify-center items-center">
+                                @if($inv->status == 'Draft')
+                                    <form action="{{ route('invoice.updateStatus', $inv->id_invoice) }}" method="POST" class="m-0 p-0 w-full">
+                                        @csrf
+                                        <input type="hidden" name="status" value="Sent">
+                                        <button type="submit" class="btn-action btn-blue">Kirim</button>
+                                    </form>
+                                @else
+                                    <span class="text-gray-300 font-bold">-</span>
+                                @endif
+                            </div>
+                            
+                            <div class="w-[75px] flex justify-center items-center">
+                                <button type="button" class="btn-action btn-detail" onclick="openModal('modal-{{ $inv->id_invoice }}')">Detail</button>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -151,4 +172,64 @@
         </table>
     </div>
 </div>
+
+@foreach($invoices as $inv)
+<div id="modal-{{ $inv->id_invoice }}" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('modal-{{ $inv->id_invoice }}')">&times;</span>
+        
+        <h3 class="text-xl font-extrabold text-[#1b254b] mb-1">Detail Invoice</h3>
+        <p class="text-sm text-gray-500 mb-5">{{ $inv->no_invoice }} &bull; Dibuat oleh: {{ $inv->admin->nama_admin ?? 'Sistem' }}</p>
+        
+        <div class="mb-4">
+            <p class="text-xs text-gray-400 font-bold uppercase">Ditagihkan Kepada:</p>
+            <p class="font-bold text-[#1b254b]">{{ $inv->klien->nama_klien ?? '-' }}</p>
+        </div>
+
+        <table class="w-full text-left detail-table mb-4">
+            <thead>
+                <tr>
+                    <th>NAMA LAYANAN / PRODUK</th>
+                    <th class="text-right">HARGA</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($inv->details as $detail)
+                <tr>
+                    <td class="font-bold text-[#1b254b]">{{ $detail->produk->nama_produk ?? $detail->nama_produk ?? 'Item' }}</td>
+                    <td class="text-right font-bold text-[#1b254b]">Rp {{ number_format($detail->harga_jual_saat_ini, 0, ',', '.') }}</td>
+                </tr>
+                @empty
+                <tr><td colspan="2" class="text-center text-gray-400">Tidak ada detail item.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        
+        <div class="flex justify-between items-center bg-[#f8fafc] p-4 rounded-xl border border-[#e2e8f0]">
+            <span class="text-sm font-bold text-gray-500">TOTAL KESELURUHAN:</span>
+            <span class="text-lg font-extrabold text-[#5b80ff]">Rp {{ number_format($inv->total, 0, ',', '.') }}</span>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Mencegah background scroll saat modal terbuka
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+        document.body.style.overflow = 'auto'; // Mengembalikan scroll
+    }
+
+    // Menutup modal jika user mengklik area abu-abu di luar kotak putih
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.style.display = "none";
+            document.body.style.overflow = 'auto';
+        }
+    }
+</script>
 @endsection
