@@ -36,17 +36,17 @@
                     <p class="text-sm text-gray-500 font-medium">Cek tagihan dan konfirmasi bukti pembayaran Anda di sini.</p>
                     
                     <div class="mt-5 inline-block bg-gray-100 text-[#1b254b] px-5 py-2.5 rounded-full text-sm font-bold group-hover:bg-[#5b80ff] group-hover:text-white transition duration-300">
-                        Masuk Portal &rarr;
+                        Masuk Portal Pelanggan &rarr;
                     </div>
                 </a>
 
                 <a href="{{ route('dashboard') }}" class="group block p-6 border-2 border-gray-100 rounded-xl hover:border-[#0b132b] hover:bg-gray-50 hover:shadow-md transition duration-300 text-center">
                     <div class="text-4xl mb-4 group-hover:scale-110 transition duration-300">👨‍💻</div>
-                    <h2 class="text-xl font-bold text-[#1b254b] mb-2">Login Admin</h2>
+                    <h2 class="text-xl font-bold text-[#1b254b] mb-2">Portal Admin</h2>
                     <p class="text-sm text-gray-500 font-medium">Kelola klien, buat invoice, dan pantau laporan keuangan.</p>
                     
                     <div class="mt-5 inline-block bg-gray-100 text-[#1b254b] px-5 py-2.5 rounded-full text-sm font-bold group-hover:bg-[#0b132b] group-hover:text-white transition duration-300">
-                        Masuk Dasbor &rarr;
+                        Masuk Portal Admin &rarr;
                     </div>
                 </a>
                 
