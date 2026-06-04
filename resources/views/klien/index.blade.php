@@ -19,32 +19,33 @@
     table tr:last-child td { border-bottom: none; }
 
     /* --- TOMBOL AKSI --- */
-    /* Wrapper Aksi agar simetris */
-    .aksi-wrapper { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
-
-    /* Tombol Detail (Pill) */
-    .btn-detail { background-color: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer; display: inline-flex; align-items: center; }
+    .aksi-wrapper { display: flex; align-items: center; gap: 16px; width: 100%; }
+    
+    /* Tombol Detail (Pill) - Dibuat margin-left: auto agar dorong ke kanan */
+    .btn-detail { 
+        background-color: #f8fafc; color: #475569; border: 1px solid #e2e8f0; 
+        font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; 
+        transition: all 0.2s; cursor: pointer; display: inline-flex; align-items: center;
+        margin-left: auto; 
+    }
     .btn-detail:hover { background-color: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
     
     /* Teks Aksi (Edit/Hapus) */
-    .text-edit { color: #3b82f6; font-weight: 700; font-size: 13px; text-decoration: none; }
+    .text-edit { color: #5b80ff; font-weight: 700; font-size: 13px; text-decoration: none; }
     .text-edit:hover { color: #2563eb; text-decoration: underline; }
-    .text-delete { color: #ef4444; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; padding: 0; }
+    .text-delete { color: #fc8181; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; padding: 0; }
     .text-delete:hover { color: #dc2626; text-decoration: underline; }
 
-    /* --- CSS UNTUK MODAL POP-UP --- */
+    /* --- CSS MODAL & STATISTIK --- */
     .modal-overlay { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
     .modal-content { background-color: #ffffff; margin: 8% auto; padding: 35px; border-radius: 20px; width: 90%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .close-modal { float: right; font-size: 24px; font-weight: bold; color: #94a3b8; cursor: pointer; }
-    .close-modal:hover { color: #ef4444; }
     
-    /* --- STYLING GRID STATISTIK MODERN --- */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
     .stat-card { padding: 20px; border-radius: 16px; display: flex; flex-direction: column; border: 1px solid #e2e8f0; background: #f8fafc; }
     .stat-total { grid-column: span 2; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #bfdbfe; flex-direction: row; justify-content: space-between; align-items: center; }
     .stat-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 4px; }
     .stat-value { font-size: 18px; font-weight: 800; }
-    .text-total { color: #1d4ed8; }
 </style>
 
 <div class="flex justify-between items-center mb-8 animate-entrance" style="animation-delay: 0.1s;">
@@ -54,12 +55,6 @@
     </a>
 </div>
 
-@if(session('success'))
-    <div class="bg-green-50 text-green-600 p-4 rounded-xl mb-6 font-medium border border-green-100 flex items-center animate-entrance" style="animation-delay: 0.2s;">
-        <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-    </div>
-@endif
-
 <div class="table-container animate-entrance" style="animation-delay: 0.3s;">
     <table class="w-full text-left border-collapse">
         <thead>
@@ -67,7 +62,7 @@
                 <th class="w-20">ID</th>
                 <th>Nama Klien</th>
                 <th>Email Klien</th>
-                <th class="col-aksi">Aksi</th>
+                <th style="width: 250px;">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -78,15 +73,14 @@
                 <td class="font-medium text-gray-500">{{ $k->email_klien }}</td>
                 <td>
                     <div class="aksi-wrapper">
+                        <div class="flex items-center gap-4">
+                            <a href="{{ route('klien.edit', $k->id_klien ?? $k->id) }}" class="text-edit">Edit</a>
+                            <form action="{{ route('klien.destroy', $k->id_klien ?? $k->id) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('Yakin ingin menghapus klien ini?');">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="text-delete">Hapus</button>
+                            </form>
+                        </div>
                         <button type="button" class="btn-detail" onclick="openModal('modal-klien-{{ $k->id_klien ?? $k->id }}')">Detail</button>
-                        
-                        <a href="{{ route('klien.edit', $k->id_klien ?? $k->id) }}" class="text-edit">Edit</a>
-                        
-                        <form action="{{ route('klien.destroy', $k->id_klien ?? $k->id) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('Yakin ingin menghapus klien ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-delete">Hapus</button>
-                        </form>
                     </div>
                 </td>
             </tr>
