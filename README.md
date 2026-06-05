@@ -35,14 +35,14 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 
 | Login Page | Dashboard | Core Feature |
 | :---: | :---: | :---: |
-| ![Login](gambar/LOGIN.png) | ![Dash](gambar/Dashborad.png) | ![Feature](gambar/KELOLAINVOICE.png) |
+| ![Login](gambar/LOGIN.png) | ![Dash](gambar/Dashboard.png) | ![Feature](gambar/KELOLA INVOICE.png) |
 
 ---
 
 ## 🛠️ Stack Teknologi
 - **Frontend:** PHP
 - **Backend:** PHP 
-- **Database:** mysql
+- **Database:** MySQL
 
 ---
 
