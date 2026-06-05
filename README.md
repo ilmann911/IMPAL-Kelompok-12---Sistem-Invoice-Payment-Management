@@ -35,7 +35,7 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 
 | Login Page | Dashboard | Core Feature |
 | :---: | :---: | :---: |
-| ![Login](gambar/LOGIN.png) | ![Dash](gambar/Dashboard.png) | ![Feature](gambar/PEMBAYARAN.png) |
+| ![Login](gambar/Login.jpeg) | ![Dash](gambar/Dashboard.jpeg) | ![Feature](gambar/KelolaKlien.jpeg) |
 
 ---
 
