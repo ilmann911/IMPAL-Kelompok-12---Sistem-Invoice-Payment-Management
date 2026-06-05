@@ -7,17 +7,17 @@
 ## 📊 Perancangan Sistem (DFD)
 
 ### Class Diagram
-![Class Diagram](Images/class_diagram_impal.png)
+![Class Diagram](gambar/ClassDiagram.png)
 
 
 ### DFD Level 0
-![DFD Level 0](Images/DFD/DFD00.jpeg)
+![DFD Level 0](gambar/DFDlevel0.jpg)
 
 Pada diagram ini terdapat dua entitas yaitu user dan admin. User dapat melakukan login, menginput data perencanaan, meminta proses forecasting, serta melihat laporan yang dihasilkan oleh sistem. Respon dari sistem yaitu memberikan keluaran berupa status login, hasil perencanaan, hasil forecasting, dan data laporan.Selain itu, Admin berperan dalam mengelola sistem. Admin dapat melakukan login serta mengelola data yang ada di dalam sistem. Sistem kemudian memberikan keluaran berupa status login admin dan laporan sistem.
 
 
 ### DFD Level 1
-![DFD Level 1](Images/DFD/DFD1.jpg)
+![DFD Level 1](gambar/DFDlevel1.jpg)
 
 Pada diagram ini, sistem diuraikan menjadi beberapa proses yaitu proses login, input data perencanaan, perhitungan dan forecasting, scenario & planning, laporan dashboard, serta manajemen data. Ada beberapa proses pada gambar yang dibagi menjadi 6 proses:
 - Proses 1.0 Login digunakan oleh user maupun admin untuk masuk ke dalam sistem dengan memasukkan data login. Sistem kemudian memverifikasi data tersebut dan memberikan keluaran berupa status login.
@@ -35,14 +35,14 @@ Rancangan UI aplikasi yang berfokus pada pengalaman pengguna.
 
 | Login Page | Dashboard | Core Feature |
 | :---: | :---: | :---: |
-| ![Login](Images/Assets/Figma/Login.jpg) | ![Dash](Images/Assets/Figma/Home%20Page%20-%20User.png) | ![Feature](Images/Assets/Figma/Perencanaan.png) |
+| ![Login](gambar/LOGIN.png) | ![Dash](gambar/Dashborad.png) | ![Feature](gambar/KELOLAINVOICE.png) |
 
 ---
 
 ## 🛠️ Stack Teknologi
-- **Frontend:** React.js
-- **Backend:** Python 
-- **Database:** Firebase
+- **Frontend:** PHP
+- **Backend:** PHP 
+- **Database:** mysql
 
 ---
 
