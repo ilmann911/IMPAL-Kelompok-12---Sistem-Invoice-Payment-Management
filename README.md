@@ -7,17 +7,17 @@
 ## 📊 Perancangan Sistem (DFD)
 
 ### Class Diagram
-![Class Diagram](gambar/ClassDiagram.png)
+![Class Diagram](gambar/ClassDiagram.jpeg)
 
 
 ### DFD Level 0
-![DFD Level 0](gambar/DFDlevel0.jpg)
+![DFD Level 0](gambar/DFDlevel0.drawio.png)
 
 Pada diagram ini terdapat dua entitas utama yaitu Admin InvoPay dan Klien. Admin InvoPay berperan penuh dalam mengelola operasional sistem, mulai dari menginput data klien, mengelola data produk atau jasa, hingga membuat invoice baru. Admin juga bertugas melakukan pembaruan status tagihan serta verifikasi pembayaran. Sebagai respons, sistem memberikan keluaran kepada admin berupa dashboard statistik, daftar invoice dan produk, riwayat transaksi, serta laporan keuangan dalam format PDF. Di sisi lain, entitas Klien berinteraksi dengan sistem untuk melakukan konfirmasi metode pembayaran dan mengunggah bukti transfer. Sistem kemudian memberikan balasan kepada klien berupa notifikasi invoice baru, ketersediaan dokumen tagihan (PDF), serta pengingat jatuh tempo.
 
 
 ### DFD Level 1
-![DFD Level 1](gambar/DFDlevel1.jpg)
+![DFD Level 1](gambar/DFDlevel1.drawio.png)
 
 Pada diagram ini, sistem InvoPay diuraikan secara lebih rinci ke dalam 7 proses utama yang menghubungkan entitas dengan basis data sistem:
 
