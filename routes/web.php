@@ -103,3 +103,5 @@ Route::middleware('auth')->group(function () {
     // Export PDF
     Route::get('/laporan/export', [LaporanController::class, 'exportPdf'])->name('laporan.export');
 });
+
+// Force Azure Deployment Refresh 2026-06-06
