@@ -127,17 +127,21 @@ class InvoiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Hanya validasi tanggal jatuh tempo
         $request->validate([
             'tanggal_jatuh_tempo' => 'required|date',
         ]);
 
         $invoice = Invoice::findOrFail($id);
 
-        // Hanya update kolom tanggal jatuh tempo
-        $invoice->update([
-            'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
-        ]);
+        // Update tanggal
+        $invoice->tanggal_jatuh_tempo = $request->tanggal_jatuh_tempo;
+
+        // Logika Re-evaluasi Status: Jika tanggal diperpanjang ke masa depan, ubah status dari Overdue ke Sent
+        if ($invoice->status == 'Overdue' && Carbon::parse($request->tanggal_jatuh_tempo)->isFuture()) {
+            $invoice->status = 'Sent';
+        }
+
+        $invoice->save();
 
         return redirect()->route('invoice.index')->with('success', 'Tanggal jatuh tempo berhasil diperbarui!');
     }
