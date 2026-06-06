@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Artisan; 
-use Carbon\Carbon; // Tambahan wajib untuk manipulasi tanggal otomatis
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -108,8 +108,50 @@ class InvoiceController extends Controller
 
     public function triggerReminder()
     {
-        // Tombol ini sekarang hanya berfokus mengeksekusi pengiriman EMAIL Reminder (jika artisan mu tersetting begitu)
         Artisan::call('invoice:cek-jatuh-tempo');
         return redirect()->back()->with('success', 'Email Reminder berhasil dieksekusi secara manual!');
+    }
+
+    // ==========================================
+    // TAMBAHAN FUNGSI EDIT, UPDATE, & DESTROY
+    // ==========================================
+
+    public function edit($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $klien = Klien::all();
+        $produk = Produk::all();
+        
+        return view('invoice.edit', compact('invoice', 'klien', 'produk'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Hanya validasi tanggal jatuh tempo
+        $request->validate([
+            'tanggal_jatuh_tempo' => 'required|date',
+        ]);
+
+        $invoice = Invoice::findOrFail($id);
+
+        // Hanya update kolom tanggal jatuh tempo
+        $invoice->update([
+            'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
+        ]);
+
+        return redirect()->route('invoice.index')->with('success', 'Tanggal jatuh tempo berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        
+        // Hapus detail invoice terkait (Child) agar tidak ada orphaned data
+        InvoiceDetail::where('id_invoice', $id)->delete();
+        
+        // Hapus header invoice (Parent)
+        $invoice->delete();
+
+        return redirect()->route('invoice.index')->with('success', 'Invoice berhasil dihapus secara permanen!');
     }
 }

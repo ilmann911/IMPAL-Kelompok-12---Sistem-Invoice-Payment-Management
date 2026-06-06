@@ -67,6 +67,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
     Route::post('/invoice', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::post('/invoice/{id}/status', [InvoiceController::class, 'updateStatus'])->name('invoice.updateStatus');
+    
+    // --- Rute Baru untuk Edit dan Delete Invoice ---
+    Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
+    Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('invoice.update');
+    Route::delete('/invoice/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
 
     // Kelola Pembayaran (Admin melihat riwayat)
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');

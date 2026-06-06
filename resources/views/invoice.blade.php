@@ -13,7 +13,7 @@
         animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Styling Wadah Tabel (Konsisten dengan Dashboard, Klien, & Produk) */
+    /* Styling Wadah Tabel */
     .table-container {
         background: white;
         border-radius: 24px;
@@ -21,7 +21,7 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
     
-    table th { font-size: 11px; font-weight: 800; color: #a3aed1; letter-spacing: 0.5px; border-bottom: 1px solid #f4f7fe; padding-bottom: 20px; }
+    table th { font-size: 11px; font-weight: 800; color: #a3aed1; letter-spacing: 0.5px; border-bottom: 1px solid #f4f7fe; padding-bottom: 20px; text-align: left; }
     table td { padding: 22px 0; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600;}
     table tr:last-child td { border-bottom: none; }
 
@@ -51,16 +51,19 @@
     .badge-overdue { background-color: #fde8e8; color: #c81e1e; }
     .badge-pending { background-color: #fef3c7; color: #b45309; }
 
-    /* Tombol Aksi */
+    /* --- TOMBOL AKSI --- */
     .btn-action { font-size: 12px; font-weight: 700; padding: 6px 0; border-radius: 8px; transition: all 0.2s; display: block; width: 100%; text-align: center; box-sizing: border-box; }
-    .btn-blue { background-color: #3b82f6; color: white; }
+    .btn-blue { background-color: #3b82f6; color: white; border: none; cursor: pointer; }
     .btn-blue:hover { background-color: #2563eb; }
-    .btn-green { background-color: #22c55e; color: white; }
-    .btn-green:hover { background-color: #16a34a; }
     
-    /* Tombol Detail Baru */
-    .btn-detail { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; cursor: pointer; }
+    /* Tombol Detail */
+    .btn-detail { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; cursor: pointer; padding: 6px 14px; width: auto; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border-radius: 8px; transition: all 0.2s; }
     .btn-detail:hover { background-color: #e2e8f0; color: #1e293b; }
+
+    .text-edit { color: #3b82f6; font-weight: 700; font-size: 13px; text-decoration: none; }
+    .text-edit:hover { color: #2563eb; text-decoration: underline; }
+    .text-delete { color: #ef4444; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; padding: 0; }
+    .text-delete:hover { color: #dc2626; text-decoration: underline; }
 
     /* --- CSS UNTUK MODAL POP-UP --- */
     .modal-overlay { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
@@ -112,7 +115,7 @@
                     <th class="px-2">Jatuh Tempo</th>
                     <th class="px-2">Total</th>
                     <th class="px-2 text-center">Status</th>
-                    <th class="px-2 text-center">Aksi</th>
+                    <th class="px-2" style="width: 290px;">Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-sm">
@@ -141,22 +144,33 @@
                         </span>
                     </td>
                     <td class="px-2">
-                        <div class="flex items-center justify-center gap-2">
-                            <div class="w-[75px] flex justify-center items-center">
-                                @if($inv->status == 'Draft')
-                                    <form action="{{ route('invoice.updateStatus', $inv->id_invoice) }}" method="POST" class="m-0 p-0 w-full">
-                                        @csrf
-                                        <input type="hidden" name="status" value="Sent">
-                                        <button type="submit" class="btn-action btn-blue">Kirim</button>
-                                    </form>
-                                @else
-                                    <span class="text-gray-300 font-bold">-</span>
-                                @endif
+                        <div class="flex items-center justify-between w-full">
+                            
+                            <div class="flex items-center gap-3 w-24 flex-shrink-0">
+                                <a href="{{ route('invoice.edit', $inv->id_invoice ?? $inv->id) }}" class="text-edit">Edit</a>
+                                
+                                <form action="{{ route('invoice.destroy', $inv->id_invoice ?? $inv->id) }}" method="POST" class="m-0 p-0 flex items-center" onsubmit="return confirm('Yakin ingin menghapus invoice ini?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-delete">Hapus</button>
+                                </form>
+                            </div>
+
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                <div class="w-[75px] flex-shrink-0 flex justify-center items-center">
+                                    @if($inv->status == 'Draft')
+                                        <form action="{{ route('invoice.updateStatus', $inv->id_invoice ?? $inv->id) }}" method="POST" class="m-0 p-0 w-full">
+                                            @csrf
+                                            <input type="hidden" name="status" value="Sent">
+                                            <button type="submit" class="btn-action btn-blue">Kirim</button>
+                                        </form>
+                                    @else
+                                        <span class="text-gray-300 font-bold text-lg">-</span>
+                                    @endif
+                                </div>
+
+                                <button type="button" class="btn-detail flex-shrink-0" onclick="openModal('modal-{{ $inv->id_invoice ?? $inv->id }}')">Detail</button>
                             </div>
                             
-                            <div class="w-[75px] flex justify-center items-center">
-                                <button type="button" class="btn-action btn-detail" onclick="openModal('modal-{{ $inv->id_invoice }}')">Detail</button>
-                            </div>
                         </div>
                     </td>
                 </tr>
@@ -174,9 +188,9 @@
 </div>
 
 @foreach($invoices as $inv)
-<div id="modal-{{ $inv->id_invoice }}" class="modal-overlay">
+<div id="modal-{{ $inv->id_invoice ?? $inv->id }}" class="modal-overlay">
     <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('modal-{{ $inv->id_invoice }}')">&times;</span>
+        <span class="close-modal" onclick="closeModal('modal-{{ $inv->id_invoice ?? $inv->id }}')">&times;</span>
         
         <h3 class="text-xl font-extrabold text-[#1b254b] mb-1">Detail Invoice</h3>
         <p class="text-sm text-gray-500 mb-5">{{ $inv->no_invoice }} &bull; Dibuat oleh: {{ $inv->admin->nama_admin ?? 'Sistem' }}</p>
@@ -216,15 +230,14 @@
 <script>
     function openModal(modalId) {
         document.getElementById(modalId).style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Mencegah background scroll saat modal terbuka
+        document.body.style.overflow = 'hidden'; 
     }
 
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
-        document.body.style.overflow = 'auto'; // Mengembalikan scroll
+        document.body.style.overflow = 'auto'; 
     }
 
-    // Menutup modal jika user mengklik area abu-abu di luar kotak putih
     window.onclick = function(event) {
         if (event.target.classList.contains('modal-overlay')) {
             event.target.style.display = "none";
