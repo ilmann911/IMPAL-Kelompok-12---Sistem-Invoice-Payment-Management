@@ -25,44 +25,34 @@ class KlienPortalController extends Controller
     public function dashboard() {
         if (!session('id_klien')) return redirect()->route('portal.login');
         
-        // ========================================================
-        // SILENT TRIGGER: Update otomatis khusus invoice milik klien ini
-        // ========================================================
         DB::table('tb_invoice')
             ->where('id_klien', session('id_klien'))
             ->whereIn('status', ['Sent', 'Pending'])
             ->whereDate('tanggal_jatuh_tempo', '<', Carbon::today())
             ->update(['status' => 'Overdue']);
 
-        // SEKARANG ambil data yang sudah 100% akurat dan sinkron
         $invoices = DB::table('tb_invoice')
             ->where('id_klien', session('id_klien'))
             ->where('status', '!=', 'Draft')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // ========================================================
-        // LOGIKA NOTIFIKASI REMINDER INSTAN (LONCENG)
-        // ========================================================
         $hariIni = Carbon::today();
         $notifikasi = [];
 
         foreach ($invoices as $inv) {
-            // Hanya buat reminder untuk tagihan yang belum lunas
             if (in_array($inv->status, ['Sent', 'Overdue', 'Pending'])) {
                 
                 if ($inv->tanggal_jatuh_tempo) {
                     $tglJatuhTempo = Carbon::parse($inv->tanggal_jatuh_tempo);
                     $selisihHari = $hariIni->diffInDays($tglJatuhTempo, false);
 
-                    // Jika sudah telat atau statusnya terlanjur Overdue
                     if ($selisihHari < 0 || $inv->status == 'Overdue') {
                         $notifikasi[] = [
                             'warna' => 'text-red-600',
                             'pesan' => "Tagihan {$inv->no_invoice} telah MELEWATI jatuh tempo! Segera lakukan pembayaran."
                         ];
                     } 
-                    // Jika mendekati jatuh tempo (H-3 sampai Hari H)
                     elseif ($selisihHari <= 3 && $selisihHari >= 0) {
                         $notifikasi[] = [
                             'warna' => 'text-yellow-600',

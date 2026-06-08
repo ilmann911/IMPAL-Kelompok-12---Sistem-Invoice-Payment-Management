@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -13,7 +12,6 @@
         animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* --- STYLING KARTU METRIK --- */
     .card-solid {
         border-radius: 16px;
         padding: 24px;
@@ -40,13 +38,11 @@
     .solid-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; opacity: 0.9; }
     .solid-value { font-size: 32px; font-weight: 800; line-height: 1; }
 
-    /* Wadah Konten Putih */
     .content-card {
         background: white; border-radius: 20px; padding: 30px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #f4f7fe;
     }
     
-    /* Styling Tabel Riwayat */
     table th { font-size: 11px; font-weight: 800; color: #a3aed1; border-bottom: 1px solid #f4f7fe; padding-bottom: 15px; }
     table td { padding: 15px 0; border-bottom: 1px solid #f4f7fe; font-size: 13px; font-weight: 600;}
     table tr:last-child td { border-bottom: none; }
@@ -82,28 +78,24 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-    
     <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.6s;">
         <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Pendapatan (Lunas)</h4>
         <div class="text-[30px] md:text-[32px] font-extrabold text-[#48bb78] tracking-tight text-center">
             Rp {{ number_format($totalPendapatan, 0, ',', '.') }}
         </div>
     </div>
-
     <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.61s;">
         <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Total Piutang (Belum Lunas)</h4>
         <div class="text-[30px] md:text-[32px] font-extrabold text-[#a0aec0] tracking-tight text-center">
             Rp {{ number_format($totalPiutang, 0, ',', '.') }}
         </div>
     </div>
-
     <div class="content-card flex flex-col justify-center items-center py-8 animate-entrance" style="animation-delay: 0.62s;">
         <h4 class="text-gray-500 font-bold text-[14px] text-center mb-3">Piutang Macet (Overdue)</h4>
         <div class="text-[30px] md:text-[32px] font-extrabold text-[#fc8181] tracking-tight text-center">
             Rp {{ number_format($totalOverdueNominal, 0, ',', '.') }}
         </div>
     </div>
-
 </div>
 
 <div class="mb-6 animate-entrance" style="animation-delay: 0.63s;">
@@ -116,16 +108,16 @@
 </div>
 
 <div class="mb-6 animate-entrance" style="animation-delay: 0.65s;">
-    <div class="content-card flex flex-col justify-center w-full">
+    <div class="content-card flex flex-col w-full">
         <h4 class="text-[#1b254b] font-extrabold text-sm uppercase tracking-wider mb-5 flex items-center">
             <i class="fas fa-crown text-yellow-500 mr-2 text-lg"></i> Top Klien
         </h4>
         <div class="space-y-4">
             @if(isset($topKliens) && count($topKliens) > 0)
                 @foreach($topKliens as $tk)
-                <div class="flex justify-between items-center border-b border-gray-50 pb-2">
-                    <span class="font-bold text-gray-700 text-sm truncate max-w-[120px]">{{ $tk->nama_klien }}</span>
-                    <span class="font-bold text-[#5b80ff] text-sm">Rp {{ number_format($tk->total, 0, ',', '.') }}</span>
+                <div class="flex justify-between items-center gap-4 border-b border-gray-50 pb-2">
+                    <span class="font-bold text-gray-700 text-sm flex-1">{{ $tk->nama_klien }}</span>
+                    <span class="font-bold text-[#5b80ff] text-sm whitespace-nowrap">Rp {{ number_format($tk->total, 0, ',', '.') }}</span>
                 </div>
                 @endforeach
             @else
@@ -136,7 +128,6 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10">
-    
     <div class="content-card flex flex-col h-[28rem] animate-entrance" style="animation-delay: 0.7s;">
         <h4 class="text-[#1b254b] font-extrabold text-lg mb-4 w-full">Persentase Status Invoice</h4>
         <div class="relative w-full flex-1 min-h-0 pb-2">
@@ -146,7 +137,6 @@
 
     <div class="content-card flex flex-col h-[28rem] animate-entrance" style="animation-delay: 0.8s;">
         <h4 class="text-[#1b254b] font-extrabold text-lg mb-6">Riwayat Transaksi (Lunas)</h4>
-        
         <div class="overflow-y-auto pr-2 flex-1 min-h-0">
             <table class="w-full text-left border-collapse">
                 <thead class="sticky top-0 bg-white shadow-sm z-10">

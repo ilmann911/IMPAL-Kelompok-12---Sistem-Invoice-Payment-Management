@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
+
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -51,7 +51,6 @@
         box-shadow: 0 0 0 4px rgba(91, 128, 255, 0.1); 
     }
 
-    /* Input yang dikunci (Readonly) */
     .form-input:disabled { 
         background-color: #f1f5f9; 
         color: #94a3b8; 
@@ -59,7 +58,6 @@
         border-color: #e2e8f0;
     }
 
-    /* Highlight khusus kolom yang bisa diedit */
     .input-editable {
         background-color: #eff6ff;
         border-color: #bfdbfe;

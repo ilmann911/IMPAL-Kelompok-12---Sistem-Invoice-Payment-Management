@@ -11,10 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Menonaktifkan perlindungan CSRF khusus untuk rute Postman
         $middleware->validateCsrfTokens(except: [
-            '/pembayaran',      // Untuk route store (Pelanggan upload bukti)
-            '/pembayaran/*',    // Untuk route verify (Admin verifikasi)
+            '/pembayaran', 
+            '/pembayaran/*',
             '/login',
             '/portal/login',
             '/klien',

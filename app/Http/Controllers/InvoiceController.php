@@ -16,18 +16,14 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. SILENT TRIGGER: Update otomatis ketika admin membuka halaman Kelola Invoice
         Invoice::whereIn('status', ['Sent', 'Pending'])
                ->whereDate('tanggal_jatuh_tempo', '<', Carbon::today())
                ->update(['status' => 'Overdue']);
 
-        // 2. Ambil kata kunci pencarian dari URL (jika ada)
         $search = $request->input('search');
 
-        // 3. Siapkan query dasar
         $query = Invoice::with('klien');
 
-        // 4. Jika ada input pencarian, filter datanya
         if ($search) {
             $query->where('no_invoice', 'LIKE', "%{$search}%")
                   ->orWhere('status', 'LIKE', "%{$search}%")
@@ -36,7 +32,6 @@ class InvoiceController extends Controller
                   });
         }
 
-        // 5. Eksekusi query
         $invoices = $query->get();
 
         return view('invoice', compact('invoices'));
@@ -112,10 +107,6 @@ class InvoiceController extends Controller
         return redirect()->back()->with('success', 'Email Reminder berhasil dieksekusi secara manual!');
     }
 
-    // ==========================================
-    // TAMBAHAN FUNGSI EDIT, UPDATE, & DESTROY
-    // ==========================================
-
     public function edit($id)
     {
         $invoice = Invoice::findOrFail($id);
@@ -133,10 +124,8 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::findOrFail($id);
 
-        // Update tanggal
         $invoice->tanggal_jatuh_tempo = $request->tanggal_jatuh_tempo;
 
-        // Logika Re-evaluasi Status: Jika tanggal diperpanjang ke masa depan, ubah status dari Overdue ke Sent
         if ($invoice->status == 'Overdue' && Carbon::parse($request->tanggal_jatuh_tempo)->isFuture()) {
             $invoice->status = 'Sent';
         }
@@ -150,10 +139,8 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
         
-        // Hapus detail invoice terkait (Child) agar tidak ada orphaned data
         InvoiceDetail::where('id_invoice', $id)->delete();
         
-        // Hapus header invoice (Parent)
         $invoice->delete();
 
         return redirect()->route('invoice.index')->with('success', 'Invoice berhasil dihapus secara permanen!');

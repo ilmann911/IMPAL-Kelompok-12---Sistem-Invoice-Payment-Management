@@ -11,10 +11,8 @@ class InvoiceDetail extends Model
 
     protected $table = 'tb_invoice_detail';
     
-    // PERBAIKAN: Ubah nama primary key agar persis dengan yang ada di database Railway
     protected $primaryKey = 'id_detail';
     
-    // Mengizinkan semua kolom diisi (Mass Assignment)
     protected $guarded = [];
 
     public function invoice()

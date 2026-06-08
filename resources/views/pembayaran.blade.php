@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
+
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -13,7 +13,6 @@
         animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Styling Wadah Tabel (Konsisten dengan tema InvoPay) */
     .table-container {
         background: white;
         border-radius: 20px;
@@ -25,7 +24,6 @@
     table td { padding: 22px 0; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600;}
     table tr:last-child td { border-bottom: none; }
 
-    /* Search & Filter yang Elegan */
     .search-input {
         background-color: #ffffff;
         border: 1px solid #e2e8f0;
@@ -54,12 +52,10 @@
     }
     .btn-filter:hover { background-color: #4869dd; }
 
-    /* Badge Status */
     .badge { padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; text-align: center; }
     .badge-paid { background-color: #def7ec; color: #057a55; }
     .badge-pending { background-color: #fef3c7; color: #b45309; }
 
-    /* Tombol Lihat Bukti */
     .btn-bukti {
         background-color: #eef2ff;
         color: #5b80ff;

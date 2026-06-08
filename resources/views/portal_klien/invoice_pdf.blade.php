@@ -11,7 +11,6 @@
         .badge-status { 
             display: inline-block; padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; text-transform: uppercase; margin-top: 5px;
         }
-        /* Pewarnaan Status Dinamis */
         .bg-paid { background-color: #48bb78; }
         .bg-pending { background-color: #ed8936; }
         .bg-sent { background-color: #4299e1; }

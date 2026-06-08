@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
-use App\Models\InvoiceDetail; // Digunakan untuk mengecek relasi invoice
+use App\Models\InvoiceDetail;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -85,7 +85,6 @@ class ProdukController extends Controller
         $produk = Produk::find($id);
         
         if ($produk) {
-            // Cek apakah produk ini sudah dipakai di dalam detail invoice
             $dipakaiDiInvoice = InvoiceDetail::where('id_produk', $id)->exists();
             
             if ($dipakaiDiInvoice) {

@@ -11,41 +11,33 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        // 0. SILENT TRIGGER: Update otomatis sebelum data dihitung
         DB::table('tb_invoice')
             ->whereIn('status', ['Sent', 'Pending'])
             ->whereDate('tanggal_jatuh_tempo', '<', Carbon::today())
             ->update(['status' => 'Overdue']);
 
-        // 1. Menghitung jumlah masing-masing status invoice
         $totalInvoice = DB::table('tb_invoice')->count();
         $paid = DB::table('tb_invoice')->where('status', 'Paid')->count();
         
-        // Merapikan status belum lunas (hilangkan Draft, tambahkan Overdue agar sinkron)
         $unpaid = DB::table('tb_invoice')->whereIn('status', ['Sent', 'Pending', 'Overdue'])->count(); 
         $overdue = DB::table('tb_invoice')->where('status', 'Overdue')->count();
 
-        // 2. Menghitung total uang masuk (Pendapatan Lunas)
         $totalPendapatan = DB::table('tb_invoice')
             ->where('status', 'Paid')
             ->sum('total');
 
-        // 3. REKAP PIUTANG: Menghitung total nominal tagihan yang belum lunas
         $totalPiutang = DB::table('tb_invoice')
             ->whereIn('status', ['Sent', 'Pending', 'Overdue'])
             ->sum('total');
 
-        // 3.1 PIUTANG MACET: Khusus nominal tagihan yang sudah lewat tenggat
         $totalOverdueNominal = DB::table('tb_invoice')
             ->where('status', 'Overdue')
             ->sum('total');
 
-        // 3.5 GRAND TOTAL: Keseluruhan uang (Lunas + Belum Lunas) - Mengabaikan Draft
         $totalKeseluruhan = DB::table('tb_invoice')
             ->whereIn('status', ['Paid', 'Sent', 'Pending', 'Overdue'])
             ->sum('total');
 
-        // 4. Ambil data Top 3 Klien
         $topKliens = DB::table('tb_invoice')
             ->join('tb_klien', 'tb_invoice.id_klien', '=', 'tb_klien.id_klien')
             ->where('tb_invoice.status', 'Paid')
@@ -55,7 +47,6 @@ class LaporanController extends Controller
             ->limit(3)
             ->get();
 
-        // 5. Ambil invoice Paid
         $recentInvoices = DB::table('tb_invoice')
             ->join('tb_klien', 'tb_invoice.id_klien', '=', 'tb_klien.id_klien')
             ->where('tb_invoice.status', 'Paid') 
@@ -72,19 +63,16 @@ class LaporanController extends Controller
 
     public function exportPdf()
     {
-        // 0. SILENT TRIGGER: Update otomatis sebelum PDF dibuat
         DB::table('tb_invoice')
             ->whereIn('status', ['Sent', 'Pending'])
             ->whereDate('tanggal_jatuh_tempo', '<', Carbon::today())
             ->update(['status' => 'Overdue']);
 
-        // 1. Data Ringkasan
         $totalInvoice = DB::table('tb_invoice')->count();
         $paid = DB::table('tb_invoice')->where('status', 'Paid')->count();
         $unpaid = DB::table('tb_invoice')->whereIn('status', ['Sent', 'Pending', 'Overdue'])->count(); 
         $overdue = DB::table('tb_invoice')->where('status', 'Overdue')->count();
 
-        // 2. Tambahan data untuk PDF (Outstanding & Aging)
         $totalOutstanding = DB::table('tb_invoice')
             ->whereIn('status', ['Sent', 'Pending', 'Overdue'])
             ->sum('total');
@@ -93,7 +81,6 @@ class LaporanController extends Controller
 
         $totalOverdueNominal = DB::table('tb_invoice')->where('status', 'Overdue')->sum('total');
 
-        // Grand Total untuk PDF
         $totalKeseluruhan = DB::table('tb_invoice')
             ->whereIn('status', ['Paid', 'Sent', 'Pending', 'Overdue'])
             ->sum('total');
@@ -114,7 +101,6 @@ class LaporanController extends Controller
             ->orderBy('tb_invoice.updated_at', 'desc')
             ->get();
 
-        // Aging Report (Invoice Overdue + Hitung Hari)
         $overdueInvoices = DB::table('tb_invoice')
             ->join('tb_klien', 'tb_invoice.id_klien', '=', 'tb_klien.id_klien')
             ->where('tb_invoice.status', 'Overdue')
@@ -126,7 +112,6 @@ class LaporanController extends Controller
             )
             ->get();
 
-        // Tembak semua data ke file view PDF
         $pdf = Pdf::loadView('laporan_pdf', compact(
             'totalInvoice', 'paid', 'unpaid', 'overdue', 
             'totalPendapatan', 'totalOutstanding', 'totalOverdueNominal', 'totalKeseluruhan', 

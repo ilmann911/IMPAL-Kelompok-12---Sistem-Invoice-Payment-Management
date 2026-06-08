@@ -9,7 +9,6 @@
         h1 { margin: 0; font-size: 24px; color: #1b254b; }
         p.date { margin: 8px 0 0 0; color: #6b7280; font-size: 12px; }
         
-        /* Summary Grid */
         .summary-grid { width: 100%; border-collapse: separate; border-spacing: 8px; margin-bottom: 20px; }
         .summary-grid td { width: 25%; padding: 15px; text-align: center; border-radius: 10px; color: white; }
         .bg-blue { background-color: #5b80ff; }
@@ -19,13 +18,11 @@
         .box-title { font-size: 9px; text-transform: uppercase; margin-bottom: 4px; font-weight: bold; opacity: 0.9; }
         .box-val { font-size: 18px; font-weight: bold; margin: 0; }
 
-        /* Revenue Containers */
         .revenue-grid { width: 100%; border-collapse: separate; border-spacing: 8px; margin-bottom: 20px; }
         .rev-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; text-align: center; }
         .rev-title { color: #64748b; font-size: 10px; margin-bottom: 6px; font-weight: bold; text-transform: uppercase; }
         .rev-val { font-size: 16px; font-weight: bold; margin: 0; }
 
-        /* Grand Total Box */
         .grand-total { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 30px; }
         .gt-title { color: #1e40af; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
         .gt-val { font-size: 26px; font-weight: 800; color: #1e3a8a; margin: 0; }

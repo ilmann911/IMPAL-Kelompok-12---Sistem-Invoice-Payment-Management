@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* Wadah Form (Konsisten dengan Table Container) */
+
     .form-container {
         background: white;
         border-radius: 24px;
@@ -11,7 +11,6 @@
         max-width: 800px;
     }
 
-    /* Styling Input yang Modern */
     .input-field {
         background-color: #f8fafc;
         border: 1px solid #e2e8f0;
@@ -30,7 +29,6 @@
         box-shadow: 0 0 0 4px rgba(91, 128, 255, 0.1);
     }
 
-    /* Tambahan class untuk input error border kemerahan */
     .input-error {
         border-color: #fc8181;
         background-color: #fff5f5;

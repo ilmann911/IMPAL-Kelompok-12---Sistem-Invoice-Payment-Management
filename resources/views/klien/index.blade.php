@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -18,10 +17,8 @@
     table td { padding: 22px 10px; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600; }
     table tr:last-child td { border-bottom: none; }
 
-    /* --- TOMBOL AKSI --- */
     .aksi-wrapper { display: flex; align-items: center; gap: 16px; width: 100%; }
     
-    /* Tombol Detail (Pill) - Dibuat margin-left: auto agar dorong ke kanan */
     .btn-detail { 
         background-color: #f8fafc; color: #475569; border: 1px solid #e2e8f0; 
         font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 8px; 
@@ -30,13 +27,11 @@
     }
     .btn-detail:hover { background-color: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
     
-    /* Teks Aksi (Edit/Hapus) */
     .text-edit { color: #5b80ff; font-weight: 700; font-size: 13px; text-decoration: none; }
     .text-edit:hover { color: #2563eb; text-decoration: underline; }
     .text-delete { color: #fc8181; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; padding: 0; }
     .text-delete:hover { color: #dc2626; text-decoration: underline; }
 
-    /* --- CSS MODAL & STATISTIK --- */
     .modal-overlay { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
     .modal-content { background-color: #ffffff; margin: 8% auto; padding: 35px; border-radius: 20px; width: 90%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .close-modal { float: right; font-size: 24px; font-weight: bold; color: #94a3b8; cursor: pointer; }

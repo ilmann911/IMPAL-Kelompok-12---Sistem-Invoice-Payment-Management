@@ -21,7 +21,6 @@ class KlienController extends Controller
 
     public function store(Request $request)
     {
-        // Menambahkan unique pada nama_klien
         $request->validate([
             'nama_klien' => 'required|string|max:255|unique:tb_klien,nama_klien',
             'email_klien' => 'required|email|unique:tb_klien,email_klien',
@@ -48,7 +47,6 @@ class KlienController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Menambahkan unique pada nama_klien dan mengecualikan ID yang sedang diedit
         $request->validate([
             'nama_klien' => 'required|string|max:255|unique:tb_klien,nama_klien,' . $id . ',id_klien',
             'email_klien' => 'required|email|unique:tb_klien,email_klien,' . $id . ',id_klien',

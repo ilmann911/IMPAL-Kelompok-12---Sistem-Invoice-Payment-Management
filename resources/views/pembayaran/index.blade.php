@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* --- HANYA TAMBAHAN CSS ANIMASI KUSTOM --- */
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }

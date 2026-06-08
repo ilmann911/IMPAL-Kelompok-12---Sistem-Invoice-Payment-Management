@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
+
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -13,7 +13,6 @@
         animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Styling Wadah Tabel */
     .table-container {
         background: white;
         border-radius: 24px;
@@ -25,7 +24,6 @@
     table td { padding: 22px 0; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600;}
     table tr:last-child td { border-bottom: none; }
 
-    /* Styling Kotak Pencarian Input */
     .search-input {
         background-color: #f8fafc;
         border: 1px solid #e2e8f0;
@@ -43,7 +41,6 @@
         box-shadow: 0 0 0 4px rgba(91, 128, 255, 0.1);
     }
 
-    /* Badge Status Pil Bulat */
     .badge { padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; text-align: center; }
     .badge-paid { background-color: #def7ec; color: #057a55; }
     .badge-draft { background-color: #f3f4f6; color: #4b5563; }
@@ -51,12 +48,10 @@
     .badge-overdue { background-color: #fde8e8; color: #c81e1e; }
     .badge-pending { background-color: #fef3c7; color: #b45309; }
 
-    /* --- TOMBOL AKSI --- */
     .btn-action { font-size: 12px; font-weight: 700; padding: 6px 0; border-radius: 8px; transition: all 0.2s; display: block; width: 100%; text-align: center; box-sizing: border-box; }
     .btn-blue { background-color: #3b82f6; color: white; border: none; cursor: pointer; }
     .btn-blue:hover { background-color: #2563eb; }
     
-    /* Tombol Detail */
     .btn-detail { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; cursor: pointer; padding: 6px 14px; width: auto; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border-radius: 8px; transition: all 0.2s; }
     .btn-detail:hover { background-color: #e2e8f0; color: #1e293b; }
 
@@ -65,14 +60,12 @@
     .text-delete { color: #ef4444; font-weight: 700; font-size: 13px; background: none; border: none; cursor: pointer; padding: 0; }
     .text-delete:hover { color: #dc2626; text-decoration: underline; }
 
-    /* --- CSS UNTUK MODAL POP-UP --- */
     .modal-overlay { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(3px); }
     .modal-content { background-color: #ffffff; margin: 8% auto; padding: 30px; border-radius: 16px; width: 90%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideDown 0.3s ease-out; }
     @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .close-modal { float: right; font-size: 24px; font-weight: bold; color: #94a3b8; cursor: pointer; transition: 0.2s; line-height: 1; }
     .close-modal:hover { color: #ef4444; }
     
-    /* Tabel di dalam Modal */
     .detail-table th { background-color: #f8fafc; padding: 10px; font-size: 10px; color: #64748b; border-bottom: none; }
     .detail-table td { padding: 10px; font-size: 12px; border-bottom: 1px solid #f1f5f9; }
 </style>

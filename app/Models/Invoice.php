@@ -29,7 +29,6 @@ class Invoice extends Model
         return $this->hasMany(InvoiceDetail::class, 'id_invoice', 'id_invoice');
     }
 
-    // ===== TAMBAHAN: Relasi untuk memanggil details di Modal Pop-up =====
     public function details()
     {
         return $this->hasMany(InvoiceDetail::class, 'id_invoice', 'id_invoice');

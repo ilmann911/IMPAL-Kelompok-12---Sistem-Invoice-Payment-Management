@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Wadah Form (Konsisten dengan modul lain) */
     .form-container {
         background: white;
         border-radius: 24px;
@@ -11,7 +10,6 @@
         max-width: 900px;
     }
 
-    /* Styling Input & Select */
     .input-field {
         background-color: #f8fafc;
         border: 1px solid #e2e8f0;
@@ -135,18 +133,18 @@
         var inputEmail = document.getElementById('email_klien_baru');
 
         if (selectElement.value === 'new') {
-            // Tampilkan form
+            
             formBaru.classList.remove('hidden');
-            // Wajib diisi
+            
             inputNama.required = true;
             inputEmail.required = true;
         } else {
-            // Sembunyikan form
+            
             formBaru.classList.add('hidden');
-            // Hilangkan wajib isi
+            
             inputNama.required = false;
             inputEmail.required = false;
-            // Kosongkan value agar tidak terkirim tidak sengaja
+            
             inputNama.value = '';
             inputEmail.value = '';
         }

@@ -10,7 +10,6 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* --- CSS ANIMASI KUSTOM --- */
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -106,11 +105,9 @@
         const eyeIcon = document.getElementById('eyeIcon');
 
         toggleButton.addEventListener('click', function () {
-            // Ubah tipe input antara 'password' dan 'text'
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
 
-            // Ubah icon mata (fa-eye menjadi fa-eye-slash dan sebaliknya)
             eyeIcon.classList.toggle('fa-eye');
             eyeIcon.classList.toggle('fa-eye-slash');
         });

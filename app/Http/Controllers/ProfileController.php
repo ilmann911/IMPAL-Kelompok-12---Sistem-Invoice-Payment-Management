@@ -9,13 +9,11 @@ use DB;
 
 class ProfileController extends Controller
 {
-    // 1. Menampilkan halaman pengaturan akun
     public function index()
     {
         return view('profile.index');
     }
 
-    // 2. Memproses perubahan Nama (Email sudah dihilangkan dari validasi)
     public function updateName(Request $request)
     {
         $adminId = Auth::id();
@@ -24,14 +22,12 @@ class ProfileController extends Controller
             'nama_admin' => 'required|string|max:255',
         ]);
 
-        // Cek data lama sebelum update untuk fitur isClean()
         $adminLama = DB::table('tb_admin')->where('id_admin', $adminId)->first();
 
         if ($adminLama->nama_admin === $request->nama_admin) {
             return redirect()->route('profile.index')->with('info', 'Tidak ada perubahan identitas yang dilakukan.');
         }
 
-        // Jalankan Update HANYA untuk nama_admin
         DB::table('tb_admin')
             ->where('id_admin', $adminId)
             ->update([
@@ -42,12 +38,11 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Nama akun berhasil diperbarui!');
     }
 
-    // 3. Memproses perubahan Password
     public function updatePassword(Request $request)
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|string|min:6|confirmed', // Harus ada input new_password_confirmation di form
+            'new_password' => 'required|string|min:6|confirmed',
         ], [
             'new_password.min' => 'Password baru minimal harus 6 karakter.',
             'new_password.confirmed' => 'Konfirmasi password baru tidak cocok.'
@@ -55,12 +50,10 @@ class ProfileController extends Controller
 
         $admin = Auth::user();
 
-        // Validasi apakah password lama cocok dengan yang di database
         if (!Hash::check($request->current_password, $admin->password)) {
             return redirect()->route('profile.index')->withErrors(['current_password' => 'Password lama yang Anda masukkan salah.']);
         }
 
-        // Jalankan Update Password Baru
         DB::table('tb_admin')
             ->where('id_admin', $admin->id_admin)
             ->update([
@@ -71,21 +64,17 @@ class ProfileController extends Controller
         return redirect()->route('profile.index')->with('success', 'Password akun Anda berhasil diganti!');
     }
 
-    // 4. Memproses Penghapusan Akun Admin
     public function destroy(Request $request)
     {
         $adminId = Auth::id();
 
-        // Cek celah keamanan: Jangan izinkan hapus jika ini adalah satu-satunya admin di sistem
         $jumlahAdmin = DB::table('tb_admin')->count();
         if ($jumlahAdmin <= 1) {
             return redirect()->route('profile.index')->with('error', 'Akun tidak bisa dihapus! Harus ada minimal satu Admin tersisa di sistem.');
         }
 
-        // Proses hapus data dari tb_admin
         DB::table('tb_admin')->where('id_admin', $adminId)->delete();
 
-        // Paksa logout dan hancurkan session setelah dihapus
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

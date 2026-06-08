@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* --- CSS ANIMASI KUSTOM --- */
+
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -13,7 +13,6 @@
         animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Styling Kartu Metrik Persis Gambar */
     .card-metric {
         border-radius: 20px;
         padding: 24px 30px;
@@ -24,7 +23,6 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
     
-    /* Lingkaran Dekorasi Transparan di Kanan */
     .card-metric::after {
         content: '';
         position: absolute;
@@ -37,7 +35,6 @@
         border-radius: 50%;
     }
 
-    /* Warna Kartu Solid Soft */
     .bg-card-blue { background-color: #5b80ff; }
     .bg-card-green { background-color: #48bb78; }
     .bg-card-gray { background-color: #a0aec0; }
@@ -46,7 +43,6 @@
     .metric-title { font-size: 14px; font-weight: 500; margin-bottom: 6px;}
     .metric-value { font-size: 38px; font-weight: 800; line-height: 1; }
     
-    /* Styling Wadah Tabel */
     .table-container {
         background: white;
         border-radius: 24px;
@@ -59,7 +55,6 @@
     table td { padding: 22px 0; border-bottom: 1px solid #f4f7fe; color: #1b254b; font-size: 14px; font-weight: 600;}
     table tr:last-child td { border-bottom: none; }
     
-    /* Warna Status Pil */
     .badge { padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; display: inline-block; }
     .badge-paid { background-color: #def7ec; color: #057a55; }
     .badge-draft { background-color: #f3f4f6; color: #4b5563; }

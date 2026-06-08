@@ -102,13 +102,11 @@
             const profileButton = document.getElementById('profileButton');
             const profileDropdown = document.getElementById('profileDropdown');
 
-            // Fungsi Toggle saat tombol diklik
             profileButton.addEventListener('click', function(event) {
                 event.stopPropagation();
                 profileDropdown.classList.toggle('hidden');
             });
 
-            // Tutup dropdown jika user klik di sembarang tempat (di luar menu)
             window.addEventListener('click', function(event) {
                 if (!profileButton.contains(event.target) && !profileDropdown.contains(event.target)) {
                     profileDropdown.classList.add('hidden');
